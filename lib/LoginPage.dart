@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:apostrophe/TestPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import 'Models/UserAuthModel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +17,38 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  Profile profileFromJson(String str) => Profile.fromJson(json.decode(str));
+
+  login() async {
+    // var headers = {'Content-Type': 'application/json'};
+    var request = http.Request('POST',
+        Uri.parse('https://apiv2.shiprocket.in/v1/external/auth/login'));
+    ;
+    request.body = json.encode({
+      "email": nameController.text,
+      "password": nameController.text,
+    });
+    // request.headers.addAll(headers);
+    print("value is ////////////////");
+
+    var response = await http.post(request.url,
+        headers: {"Content-Type": "application/json"}, body: request.body);
+
+    Profile profile = new Profile();
+    if (response.statusCode == 200) {
+      // print(response.body.toString());
+      profile = await Profile.fromJson(json.decode(response.body.toString()));
+      print(profile.firstName);
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => TestPage(profile: profile),
+        ),
+      );
+    }
+    // print(profile.firstName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,30 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
                     child: const Text('Login'),
-                    onPressed: () async {
-                      var headers = {'Content-Type': 'application/json'};
-                      var request = http.Request(
-                          'POST',
-                          Uri.parse(
-                              'https://apiv2.shiprocket.in/v1/external/auth/login'));
-                      request.body = json.encode({
-                        "email": "ashish.kataria+hackathon@shiprocket.com",
-                        "password": "hackathon@2022"
-                      });
-                      request.headers.addAll(headers);
-
-                      http.StreamedResponse response = await request.send();
-
-                      if (response.statusCode == 200) {
-                        print(await response.stream.bytesToString());
-                        // print(await response.toString());
-                      } else {
-                        print(response.reasonPhrase);
-                      }
-                      //signup screen
-                      print(nameController.text);
-                      print(passwordController.text);
-                    },
+                    onPressed: login,
                   )),
               Row(
                 children: <Widget>[
