@@ -25,5 +25,5 @@ Delivery agent will be equipped with tracker, updating real-time location detail
 The application would map markers on the delivery locations and their status.
 Analysed output for opted user to know about their current and past order statistics.
 
-
+![alt text](https://github.com/C-m3-Codin/Apostrophe__2/edit/main/flow.png?raw=true)
 
