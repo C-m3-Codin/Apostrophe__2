@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:apostrophe/AllOrders.dart';
 import 'package:apostrophe/Map.dart';
 import 'package:apostrophe/HomePage.dart';
 import 'package:apostrophe/TestPage.dart';
@@ -32,8 +33,6 @@ class _LoginPageState extends State<LoginPage> {
       "email": "ashish.kataria+hackathon@shiprocket.com",
       "password": "hackathon@2022"
     });
-    // request.headers.addAll(headers);
-    // print("value is ////////////////");
 
     var response = await http.post(request.url,
         headers: {"Content-Type": "application/json"}, body: request.body);
@@ -47,7 +46,8 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute<void>(
           // builder: (BuildContext context) => TestPage(profile: profile),
-          builder: (BuildContext context) => HomePage(profile: profile),
+          // builder: (BuildContext context) => HomePage(profile: profile),
+          builder: (BuildContext context) => ShowAllOrders(profile: profile),
           // builder: (BuildContext context) => MapDisplay(),
         ),
       );
