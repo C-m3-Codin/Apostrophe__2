@@ -10,9 +10,14 @@ class TestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Hello ${profile.firstName}',
-          style: TextStyle(fontSize: 30),
+        child: Column(
+          children: [
+            Text(
+              'Hello ${profile.firstName}',
+              style: TextStyle(fontSize: 30),
+            ),
+            Text(profile.token.toString())
+          ],
         ),
       ),
     );

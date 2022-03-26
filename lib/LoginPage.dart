@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:apostrophe/Map.dart';
 import 'package:apostrophe/TestPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +27,13 @@ class _LoginPageState extends State<LoginPage> {
         Uri.parse('https://apiv2.shiprocket.in/v1/external/auth/login'));
     ;
     request.body = json.encode({
-      "email": nameController.text,
-      "password": nameController.text,
+      // "email": nameController.text,
+      // "password": nameController.text,
+      "email": "ashish.kataria+hackathon@shiprocket.com",
+      "password": "hackathon@2022"
     });
     // request.headers.addAll(headers);
-    print("value is ////////////////");
+    // print("value is ////////////////");
 
     var response = await http.post(request.url,
         headers: {"Content-Type": "application/json"}, body: request.body);
@@ -43,7 +46,16 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => TestPage(profile: profile),
+          // builder: (BuildContext context) => TestPage(profile: profile),
+          builder: (BuildContext context) => MapDisplay(),
+        ),
+      );
+    } else {
+      String errorMessage = "password does not match";
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
         ),
       );
     }
