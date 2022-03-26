@@ -64,9 +64,18 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
               return Center(child: Text('Error: ${snapshot.error}'));
             else {
               // print(snapshot.data?.toJson().toString());
-              return Center(
-                  child: Text(
-                      "${snapshot.data!.data![0].customerEmail.toString()}"));
+              List<Datum> list = snapshot.data!.data!;
+              return ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      elevation: 2.0,
+                      child: Text(list[index].customerName!),
+                    );
+                  });
+              // Center(
+              //     child: Text(
+              //         "${snapshot.data!.data![0].customerEmail.toString()}"));
             }
           }
         },

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:apostrophe/AllOrders.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
-import 'package:apostrophe/orders.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,7 +24,9 @@ class _HomePageState extends State<HomePage> {
         controller: _pageController,
         children: [
           Container(
-            child: Orders(),
+            child: ShowAllOrders(
+              profile: widget.profile,
+            ),
           ),
           Container(child: ProfilePage(profile: widget.profile)),
         ],
