@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:apostrophe/Map.dart';
+import 'package:apostrophe/HomePage.dart';
 import 'package:apostrophe/TestPage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -47,7 +47,8 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute<void>(
           // builder: (BuildContext context) => TestPage(profile: profile),
-          builder: (BuildContext context) => MapDisplay(),
+          builder: (BuildContext context) => HomePage(profile: profile),
+          // builder: (BuildContext context) => MapDisplay(),
         ),
       );
     } else {

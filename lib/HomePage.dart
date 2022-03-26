@@ -1,0 +1,141 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:apostrophe/Models/UserAuthModel.dart';
+import 'package:apostrophe/orders.dart';
+import 'package:bottom_bar/bottom_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+class HomePage extends StatefulWidget {
+  final Profile profile;
+  HomePage({Key? key, required this.profile}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentPage = 0;
+  final _pageController = PageController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        children: [
+          Container(
+            child: Orders(),
+          ),
+          Container(child: ProfilePage(profile: widget.profile)),
+        ],
+        onPageChanged: (index) {
+          setState(() => _currentPage = index);
+        },
+      ),
+      bottomNavigationBar: BottomBar(
+        selectedIndex: _currentPage,
+        onTap: (int index) {
+          _pageController.jumpToPage(index);
+          setState(() => _currentPage = index);
+        },
+        items: <BottomBarItem>[
+          BottomBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+            activeColor: Colors.blue,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.person),
+            title: Text('Profile'),
+            activeColor: Colors.blue,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ProfilePage extends StatefulWidget {
+  final Profile profile;
+  const ProfilePage({Key? key, required this.profile}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Card(
+              elevation: 5.0,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "HELLO!",
+                        style: TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 50),
+                      Text(
+                        (widget.profile.firstName! +
+                                " " +
+                                widget.profile.lastName!)
+                            .toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue),
+                      )
+                    ]),
+              ),
+            ),
+          ),
+          Container(
+              child: Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                showdetails("Email", widget.profile.email),
+                showdetails("Company", widget.profile.companyId.toString()),
+                showdetails(
+                    "Created", (widget.profile.createdAt!).split(" ")[0]),
+              ],
+            ),
+          )),
+        ],
+      ),
+    );
+  }
+}
+
+showdetails(String s, String? email) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              s + " " + ":" + " ",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              email!,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
