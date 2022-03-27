@@ -51,6 +51,7 @@ class _MapDisplayState extends State<MapDisplay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Order Geolocation")),
       body: FlutterMap(
         options: MapOptions(
           center: LatLng(28.38, 77.12),
