@@ -51,9 +51,9 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('All Orders'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('All Orders'),
+      // ),
       body: FutureBuilder(
         future: orders,
         builder: (BuildContext context, AsyncSnapshot<Orders> snapshot) {
