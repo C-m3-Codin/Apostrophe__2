@@ -85,35 +85,79 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      list[index].id.toString()!,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                          color: Colors.blueGrey),
+                                    Column(
+                                      children: [
+                                        Text("ID:",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: Colors.blueGrey)),
+                                        Text(
+                                          list[index].id.toString()!,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      list[index].customerName!,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                          color: Colors.blueGrey),
+                                    Column(
+                                      children: [
+                                        Text("Name:",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: Colors.blueGrey)),
+                                        Text(
+                                          list[index].customerName!,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  list[index].customerEmail!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.blue,
-                                      fontSize: 15),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Email:",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.blueGrey,
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                      list[index].customerEmail!,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.blue,
+                                          fontSize: 15),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  list[index].customerPhone!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.blue,
-                                      fontSize: 15),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Phone:",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.blueGrey,
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                      list[index].customerPhone!,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.blue,
+                                          fontSize: 15),
+                                    ),
+                                  ],
                                 ),
                               ],
                             )),
