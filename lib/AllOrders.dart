@@ -70,7 +70,10 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       elevation: 2.0,
-                      child: Text(list[index].customerName!),
+                      // child: Text(list[index].customerName!),
+                      child: ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text(list[index].customerName!)),
                     );
                   });
               // Center(
