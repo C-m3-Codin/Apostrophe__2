@@ -1,3 +1,6 @@
+// ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:apostrophe/Models/UserAuthModel.dart';
@@ -5,6 +8,7 @@ import 'package:apostrophe/Models/track.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: must_be_immutable
 class TrackPage extends StatefulWidget {
   String awb;
   Profile profile;
@@ -24,6 +28,7 @@ class _TrackState extends State<TrackPage> {
   late Future<Track> trackapi;
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     // trackapi = getTrack();
@@ -34,7 +39,7 @@ class _TrackState extends State<TrackPage> {
     String token = widget.profile.token.toString();
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}'
+      'Authorization': 'Bearer $token'
     };
     var response = await http.get(
         Uri.parse(
@@ -50,11 +55,12 @@ class _TrackState extends State<TrackPage> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   Future<Track> getTrackORDER(String channelId, String OrderId) async {
     String token = widget.profile.token.toString();
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}'
+      'Authorization': 'Bearer $token'
     };
     var response = await http.get(
         Uri.parse(
@@ -74,7 +80,7 @@ class _TrackState extends State<TrackPage> {
     String token = widget.profile.token.toString();
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}'
+      'Authorization': 'Bearer $token'
     };
     var response = await http.get(
         Uri.parse(
@@ -102,16 +108,16 @@ class _TrackState extends State<TrackPage> {
               future: trackapi,
               builder: (BuildContext context, AsyncSnapshot<Track> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else {
-                  if (snapshot.hasError)
-                    return Center(
+                  if (snapshot.hasError) {
+                    return const Center(
                         child:
                             Text('Error: No awb order found on that number'));
-                  else {
+                  } else {
                     return Center(
                         child: Text(
-                            "${snapshot.data!.trackingData!.trackUrl.toString()}"));
+                            snapshot.data!.trackingData!.trackUrl.toString()));
                   }
                 }
               },
@@ -119,6 +125,7 @@ class _TrackState extends State<TrackPage> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ListView SearchBar() {
     return ListView(
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -129,7 +136,7 @@ class _TrackState extends State<TrackPage> {
             padding: const EdgeInsets.all(8.0),
             child: Expanded(
               child: Card(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.2,
                   child: Column(
@@ -161,7 +168,7 @@ class _TrackState extends State<TrackPage> {
                                       searched = true;
                                       setState(() {});
                                     },
-                                    icon: Icon(Icons.search))),
+                                    icon: const Icon(Icons.search))),
                           ),
                         ],
                       )
@@ -208,7 +215,7 @@ class _TrackState extends State<TrackPage> {
                                       searched = true;
                                       setState(() {});
                                     },
-                                    icon: Icon(Icons.search))),
+                                    icon: const Icon(Icons.search))),
                           ),
                         ],
                       ),
@@ -252,7 +259,7 @@ class _TrackState extends State<TrackPage> {
                                 child: Container(
                                     alignment: Alignment.center,
                                     padding: const EdgeInsets.all(10),
-                                    child: Text(" ")),
+                                    child: const Text(" ")),
                               ),
                             ],
                           ),
@@ -284,7 +291,7 @@ class _TrackState extends State<TrackPage> {
                                           searched = true;
                                           setState(() {});
                                         },
-                                        icon: Icon(Icons.search))),
+                                        icon: const Icon(Icons.search))),
                               ),
                             ],
                           )
@@ -321,12 +328,14 @@ class _TrackState extends State<TrackPage> {
         ]);
   }
 
+  // ignore: non_constant_identifier_names
   Padding tracking_heading(String s) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
         s,
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),
+        style: const TextStyle(
+            fontWeight: FontWeight.bold, color: Colors.blueGrey),
       ),
     );
   }

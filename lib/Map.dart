@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -32,9 +33,7 @@ class _MapDisplayState extends State<MapDisplay> {
               doubleInRange(r, 37, 55),
               doubleInRange(r, -9, 30),
             ),
-            builder: (context) => Container(
-              child: FlutterLogo(),
-            ),
+            builder: (context) => const FlutterLogo(),
           ),
         );
       }
@@ -62,9 +61,7 @@ class _MapDisplayState extends State<MapDisplay> {
               51.5,
               -0.09,
             ),
-            builder: (context) => Container(
-              child: FlutterLogo(),
-            ),
+            builder: (context) => const FlutterLogo(),
           ),
           Marker(
             width: 80.0,
@@ -73,9 +70,7 @@ class _MapDisplayState extends State<MapDisplay> {
               52.5,
               -0.09,
             ),
-            builder: (context) => Container(
-              child: FlutterLogo(),
-            ),
+            builder: (context) => const FlutterLogo(),
           ),
           Marker(
             width: 80.0,
@@ -84,9 +79,7 @@ class _MapDisplayState extends State<MapDisplay> {
               54.5,
               -0.09,
             ),
-            builder: (context) => Container(
-              child: FlutterLogo(),
-            ),
+            builder: (context) => const FlutterLogo(),
           ),
         ]),
       ],

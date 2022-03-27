@@ -20,7 +20,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Apostrophe")),
+      appBar: AppBar(
+        title: Text("Apostrophe"),
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: PageView(
         controller: _pageController,
         children: [
