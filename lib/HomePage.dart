@@ -5,7 +5,6 @@ import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/TracksPage.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatefulWidget {
   final Profile profile;
