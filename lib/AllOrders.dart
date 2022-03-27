@@ -59,7 +59,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
         future: orders,
         builder: (BuildContext context, AsyncSnapshot<Orders> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: Text('Please wait its loading...'));
+            return Center(child: CircularProgressIndicator());
           } else {
             if (snapshot.hasError)
               return Center(child: Text('Error: ${snapshot.error}'));
@@ -71,7 +71,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
-                        print(list[index]!);
+                        print(list[index]);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -95,7 +95,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                                                 fontSize: 20,
                                                 color: Colors.blueGrey)),
                                         Text(
-                                          list[index].id.toString()!,
+                                          list[index].id.toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,

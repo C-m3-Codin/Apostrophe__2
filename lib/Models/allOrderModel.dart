@@ -188,7 +188,7 @@ class Product {
   String? channelSku;
   int? quantity;
   int? productId;
-  int? available;
+  String? available;
   String? status;
   String? hsn;
 
@@ -199,7 +199,7 @@ class Product {
         channelSku: json["channel_sku"],
         quantity: json["quantity"],
         productId: json["product_id"],
-        available: json["available"],
+        available: json["available"].toString(),
         status: json["status"],
         hsn: json["hsn"],
       );
