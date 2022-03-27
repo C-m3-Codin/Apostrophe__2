@@ -131,7 +131,7 @@ class _TrackState extends State<TrackPage> {
               child: Card(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  // height: MediaQuery.of(context).size.height * 0.15,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

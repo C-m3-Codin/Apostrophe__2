@@ -70,7 +70,9 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                   itemCount: list.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        print(list[index]!);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Card(
