@@ -1,12 +1,17 @@
 // ignore: file_names
 import 'dart:math';
 
+import 'package:apostrophe/LoginPage.dart';
+import 'package:apostrophe/Models/track.dart';
+import 'package:apostrophe/TrackDetails.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_json_view/flutter_json_view.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapDisplay extends StatefulWidget {
-  const MapDisplay({Key? key}) : super(key: key);
+  TrackingData trackingData;
+  MapDisplay({Key? key, required this.trackingData}) : super(key: key);
 
   @override
   State<MapDisplay> createState() => _MapDisplayState();
@@ -18,6 +23,8 @@ class _MapDisplayState extends State<MapDisplay> {
   List<Marker> allMarkers = [];
 // int maxMarkersCount = 5000;
   int _sliderVal = 5000 ~/ 10;
+  bool mapOneTapped = false;
+  bool maptwoTapped = false;
 
   @override
   void initState() {
@@ -43,46 +50,93 @@ class _MapDisplayState extends State<MapDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        center: LatLng(51.5, -0.09),
-        zoom: 13.0,
-      ),
-      layers: [
-        TileLayerOptions(
-          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          subdomains: ['a', 'b', 'c'],
+    return Scaffold(
+      body: FlutterMap(
+        options: MapOptions(
+          center: LatLng(28.38, 77.12),
+          zoom: 5.0,
         ),
-        MarkerLayerOptions(markers: [
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: LatLng(
-              51.5,
-              -0.09,
-            ),
-            builder: (context) => const FlutterLogo(),
+        layers: [
+          TileLayerOptions(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'],
           ),
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: LatLng(
-              52.5,
-              -0.09,
-            ),
-            builder: (context) => const FlutterLogo(),
-          ),
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: LatLng(
-              54.5,
-              -0.09,
-            ),
-            builder: (context) => const FlutterLogo(),
-          ),
-        ]),
-      ],
+          MarkerLayerOptions(markers: [
+            Marker(
+                width: 80.0,
+                height: 80.0,
+                point: LatLng(33.76750416182363, 74.09102457035667),
+                builder: (context) {
+                  return Container(
+                    child: GestureDetector(
+                      onTap: (() {
+                        mapOneTapped = true;
+                        setState(() {});
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                trackDetails(dataTrack: widget.trackingData),
+                          ),
+                        );
+                      }),
+                      child: const Icon(
+                        Icons.person,
+                        size: 20,
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
+                }),
+            Marker(
+                width: 80.0,
+                height: 80.0,
+                point: LatLng(28.645093312626376, 77.07422383707488),
+                builder: (context) {
+                  return Container(
+                    child: GestureDetector(
+                      onTap: (() {
+                        mapOneTapped = true;
+                        setState(() {});
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                trackDetails(dataTrack: widget.trackingData),
+                          ),
+                        );
+                      }),
+                      child: const Icon(
+                        Icons.person,
+                        size: 20,
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
+                }
+                // Icon(Icons.room_rounded),
+                ),
+            // Marker(
+            //   width: 80.0,
+            //   height: 80.0,
+            //   point: LatLng(
+            //     54.5,
+            //     -0.09,
+            //   ),
+            //   builder: (context) => const FlutterLogo(),
+            // ),
+          ]),
+        ],
+      ),
+      // ListView.builder(
+      //     shrinkWrap: true,
+      //     itemCount: widget.trackingData.shipmentTrack.length,
+      //     itemBuilder: (context, i) {
+      //       return SingleChildScrollView(
+      //         scrollDirection: Axis.horizontal,
+      //         child: JsonView.map(widget.trackingData.toJson()),
+      //       );
+      //     })
     );
   }
 }
