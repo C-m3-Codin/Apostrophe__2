@@ -119,10 +119,10 @@ class _TrackState extends State<TrackPage> {
     );
   }
 
-  Column SearchBar() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
+  ListView SearchBar() {
+    return ListView(
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           // With AWB
           Padding(
@@ -131,7 +131,7 @@ class _TrackState extends State<TrackPage> {
               child: Card(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  // height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -176,9 +176,9 @@ class _TrackState extends State<TrackPage> {
             padding: const EdgeInsets.all(8.0),
             child: Expanded(
               child: Card(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -223,34 +223,71 @@ class _TrackState extends State<TrackPage> {
             padding: const EdgeInsets.all(8.0),
             child: Expanded(
               child: Card(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      tracking_heading("Track with Order ID"),
-                      Row(
+                      tracking_heading("Track with Order ID & Channel ID"),
+                      Column(
                         children: [
-                          Flexible(
-                            flex: 6,
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              child: TextField(
-                                  controller: searchQueryORDER,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Enter Order number',
-                                  )),
-                            ),
-                          ),
-                          Flexible(
-                              flex: 1,
-                              child: Container(
+                          Row(
+                            children: [
+                              Flexible(
+                                flex: 6,
+                                child: Container(
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.all(10),
-                                  child: Text(" ")))
+                                  child: TextField(
+                                      controller: searchQueryORDER,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Enter Order number',
+                                      )),
+                                ),
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text(" ")),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Flexible(
+                                flex: 6,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(10),
+                                  child: TextField(
+                                      controller: searchQueryCHANNELID,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Enter channel_id number',
+                                      )),
+                                ),
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(10),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          trackapi = getTrackORDER(
+                                              searchQueryCHANNELID.text,
+                                              searchQueryORDER.text);
+                                          searched = true;
+                                          setState(() {});
+                                        },
+                                        icon: Icon(Icons.search))),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ],
@@ -260,53 +297,26 @@ class _TrackState extends State<TrackPage> {
             ),
           ),
           // with Channel id number
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Card(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      tracking_heading("Track with Channel ID"),
-                      Row(children: [
-                        Flexible(
-                          flex: 6,
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(10),
-                            child: TextField(
-                                controller: searchQueryCHANNELID,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Enter channel_id number',
-                                )),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              child: IconButton(
-                                  onPressed: () {
-                                    trackapi = getTrackORDER(
-                                        searchQueryCHANNELID.text,
-                                        searchQueryORDER.text);
-                                    searched = true;
-                                    setState(() {});
-                                  },
-                                  icon: Icon(Icons.search))),
-                        ),
-                      ]),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Expanded(
+          //     child: Card(
+          //       child: SizedBox(
+          //         width: MediaQuery.of(context).size.width,
+          //         height: MediaQuery.of(context).size.height * 0.2,
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             tracking_heading("Track with Channel ID"),
+          //             Row(children: [
+
+          //             ]),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           // asdfs
         ]);
   }
