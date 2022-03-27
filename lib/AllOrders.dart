@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 import 'dart:convert';
 
 import 'package:apostrophe/Models/UserAuthModel.dart';
@@ -51,9 +52,9 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('All Orders'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('All Orders'),
+      // ),
       body: FutureBuilder(
         future: orders,
         builder: (BuildContext context, AsyncSnapshot<Orders> snapshot) {
@@ -68,12 +69,66 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
               return ListView.builder(
                   itemCount: list.length,
                   itemBuilder: (BuildContext context, int index) {
+<<<<<<< HEAD
                     return Card(
                       elevation: 2.0,
                       // child: Text(list[index].customerName!),
                       child: ListTile(
                           leading: Icon(Icons.person),
                           title: Text(list[index].customerName!)),
+=======
+                    return InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          elevation: 2.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                child: Column(
+                              children: [
+                                // name
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      list[index].id.toString()!,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.blueGrey),
+                                    ),
+                                    Text(
+                                      list[index].customerName!,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.blueGrey),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  list[index].customerEmail!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.blue,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                  list[index].customerPhone!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.blue,
+                                      fontSize: 15),
+                                ),
+                              ],
+                            )),
+                          ),
+                        ),
+                      ),
+>>>>>>> 0a0a3efdf4e1dcfb61ca8a5a1d916530d750e212
                     );
                   });
               // Center(
