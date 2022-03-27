@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                       const Text('Does not have account?'),
                       TextButton(
                         child: const Text(
-                          'Sign in',
+                          'Sign up',
                           style: TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {},

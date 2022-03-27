@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/Models/allOrderModel.dart';
+import 'package:apostrophe/OrderDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -73,6 +74,13 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                     return InkWell(
                       onTap: () {
                         print(list[index]);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                OrderDetails(order: list[index]),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
