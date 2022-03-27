@@ -69,16 +69,10 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
               return ListView.builder(
                   itemCount: list.length,
                   itemBuilder: (BuildContext context, int index) {
-<<<<<<< HEAD
-                    return Card(
-                      elevation: 2.0,
-                      // child: Text(list[index].customerName!),
-                      child: ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text(list[index].customerName!)),
-=======
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        print(list[index]!);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Card(
@@ -172,7 +166,6 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                           ),
                         ),
                       ),
->>>>>>> 0a0a3efdf4e1dcfb61ca8a5a1d916530d750e212
                     );
                   });
               // Center(
