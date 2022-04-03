@@ -283,7 +283,8 @@ class _TrackState extends State<TrackPage> {
                                 padding: const EdgeInsets.all(10),
                                 child: IconButton(
                                     onPressed: () {
-                                      trackapi = getTrackAWB("277553044205");
+                                      trackapi =
+                                          getTrackAWB(searchQueryAWB.text);
                                       searched = true;
                                       setState(() {});
                                     },
@@ -330,7 +331,8 @@ class _TrackState extends State<TrackPage> {
                                 padding: const EdgeInsets.all(10),
                                 child: IconButton(
                                     onPressed: () {
-                                      trackapi = getTrackSHIP("277553044205");
+                                      trackapi =
+                                          getTrackSHIP(searchQuerySHIP.text);
                                       searched = true;
                                       setState(() {});
                                     },

@@ -31,14 +31,24 @@ class _LoginPageState extends State<LoginPage> {
         Uri.parse('https://apiv2.shiprocket.in/v1/external/auth/login'));
     ;
     request.body = json.encode({
-      // "email": nameController.text,
-      // "password": nameController.text,
-      "email": "ashish.kataria+hackathon@shiprocket.com",
-      "password": "hackathon@2022"
+      "email": nameController.text,
+      "password": passwordController.text,
+      // "email": "ashish.kataria+hackathon@shiprocket.com",
+      // "password": "hackathon@2022"
     });
+    print("asdasdasdasdasd ${nameController.text}");
 
     var response = await http.post(request.url,
-        headers: {"Content-Type": "application/json"}, body: request.body);
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Vary": "Origin",
+          "Vary": "Access-Control-Request-Method",
+          "Vary": "Access-Control-Request-Headers",
+          "Access-Control-Allow-Headers": "Content-Type, Origin, Accept, token",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        },
+        body: request.body);
 
     Profile profile = new Profile();
     if (response.statusCode == 200) {
