@@ -31,10 +31,10 @@ class _LoginPageState extends State<LoginPage> {
         Uri.parse('https://apiv2.shiprocket.in/v1/external/auth/login'));
     ;
     request.body = json.encode({
-      "email": nameController.text,
-      "password": passwordController.text,
-      // "email": "ashish.kataria+hackathon@shiprocket.com",
-      // "password": "hackathon@2022"
+      // "email": nameController.text,
+      // "password": passwordController.text,
+      "email": "ashish.kataria+hackathon@shiprocket.com",
+      "password": "hackathon@2022"
     });
     print("asdasdasdasdasd ${nameController.text}");
 
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         body: request.body);
 
-    Profile profile = new Profile();
+    Profile profile = Profile();
     if (response.statusCode == 200) {
       // print(response.body.toString());
       profile = await Profile.fromJson(json.decode(response.body.toString()));
@@ -84,31 +84,36 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           child: Padding(
               padding: const EdgeInsets.all(10),
-              child: ListView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(10),
                       child: const Text(
-                        'Login Page',
+                        'Login',
                         style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.w500,
                             fontSize: 30),
                       )),
-                  Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(10),
-                      child: const Text(
-                        'Sign in',
-                        style: TextStyle(fontSize: 20),
-                      )),
+                  // Container(
+                  //     alignment: Alignment.center,
+                  //     padding: const EdgeInsets.all(10),
+                  //     child: const Text(
+                  //       'Sign in',
+                  //       style: TextStyle(fontSize: 20),
+                  //     )),
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextField(
                       controller: nameController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey[100],
                         labelText: 'User Name',
                       ),
                     ),
@@ -118,8 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextField(
                       obscureText: true,
                       controller: passwordController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey[100],
                         labelText: 'Password',
                       ),
                     ),
@@ -127,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     onPressed: () {
                       //forgot password screen
+                      dialoguebox(context);
                     },
                     child: const Text(
                       'Forgot Password',
@@ -136,18 +146,20 @@ class _LoginPageState extends State<LoginPage> {
                       height: 50,
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(50)),
                         child: const Text('Login'),
                         onPressed: login,
                       )),
                   Row(
                     children: <Widget>[
-                      const Text('Does not have account?'),
+                      const Text('Haven\'t joined us yet?'),
                       TextButton(
                         child: const Text(
                           'Sign up',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        onPressed: () async {},
+                        onPressed: () => dialoguebox(context),
                       )
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -158,4 +170,45 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  Future<dynamic> dialoguebox(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) => _buildPopupDialog(context));
+  }
+}
+
+Widget _buildPopupDialog(BuildContext context) {
+  return AlertDialog(
+    title: const Center(child: Text('Ooops...')),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const <Widget>[
+        Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+          child: Center(
+            child: Icon(
+              Icons.warning_amber_rounded,
+              size: 50,
+            ),
+          ),
+        ),
+        Center(
+            child: Text(
+          "This feature is yet to be implemented. Please wait",
+          textAlign: TextAlign.center,
+        )),
+      ],
+    ),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: const Text('Close'),
+      ),
+    ],
+  );
 }
