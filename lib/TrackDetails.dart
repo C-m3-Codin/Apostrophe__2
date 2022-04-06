@@ -20,7 +20,11 @@ class trackDetailsState extends State<trackDetails> {
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: JsonView.map(widget.dataTrack.toJson()),
+            child: Column(
+              children: [
+                JsonView.map(widget.dataTrack.toJson()),
+              ],
+            ),
           ),
         ),
       ),
