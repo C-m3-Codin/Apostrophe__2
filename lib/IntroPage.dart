@@ -23,7 +23,7 @@ class _IntroState extends State<Intro> {
         done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
         onDone: () async {
           final prefs = await SharedPreferences.getInstance();
-          prefs.setBool('showIntro', true);
+          prefs.setBool('showIntro', false);
           Navigator.pushReplacement(
               context,
               MaterialPageRoute<void>(

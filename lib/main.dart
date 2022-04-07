@@ -15,7 +15,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
-  final showIntro = prefs.getBool('showIntro') ?? false;
+  final showIntro = prefs.getBool('showIntro') ?? true;
 
   runApp(MyApp(showIntro: showIntro));
 }
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: showIntro ? const LoginPage() : const Intro(),
+      home: showIntro ? const Intro() : const LoginPage(),
     );
   }
 }
