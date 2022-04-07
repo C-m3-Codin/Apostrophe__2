@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } else {
       String errorMessage = "password does not match";
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(errorMessage),
           backgroundColor: Colors.red,

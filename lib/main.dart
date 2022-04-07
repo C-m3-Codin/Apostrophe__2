@@ -2,18 +2,30 @@
 
 import 'dart:convert';
 
+import 'package:apostrophe/IntroPage.dart';
 import 'package:apostrophe/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'HomePage.dart';
 
-void main() {
-  runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final showIntro = prefs.getBool('showIntro') ?? false;
+
+  runApp(MyApp(showIntro: showIntro));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool showIntro;
+  const MyApp({
+    Key? key,
+    required this.showIntro,
+  }) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -33,8 +45,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
-      // home: HomePage(),
+      home: showIntro ? const LoginPage() : const Intro(),
     );
   }
 }
