@@ -1,5 +1,6 @@
 import 'package:apostrophe/Models/allOrderModel.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetails extends StatefulWidget {
   final Datum order;
@@ -82,6 +83,43 @@ class _OrderDetailsState extends State<OrderDetails> {
                           Text(widget.order.tax.toString()),
                         ],
                       ),
+                      Card(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                launch("tel://21213123123");
+                              },
+                              child: Icon(Icons.call),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                String? encodeQueryParameters(
+                                    Map<String, String> params) {
+                                  return params.entries
+                                      .map((e) =>
+                                          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                      .join('&');
+                                }
+
+                                final Uri emailLaunchUri = Uri(
+                                    scheme: 'mailto',
+                                    path: widget.order.customerEmail,
+                                    query: encodeQueryParameters(
+                                      <String, String>{
+                                        'subject':
+                                            'Regarding the order Number ${widget.order.id}'
+                                      },
+                                    ));
+
+                                launch(emailLaunchUri.toString());
+                              },
+                              child: Icon(Icons.mail),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
