@@ -28,6 +28,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
   int page = 0;
   String FilterBy = "payment_method";
   String filter = "cod";
+  String sort = "ASC";
 
   Future<bool> getFilteredApi(int page) async {
     print("gonna fetch filter");
@@ -43,7 +44,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
 
     var response = await http.get(
         Uri.parse(
-            'https://apiv2.shiprocket.in/v1/external/orders?filter_by=${FilterBy}&filter=${filter}&page=${page}'),
+            'https://apiv2.shiprocket.in/v1/external/orders?filter_by=${FilterBy}&filter=${filter}&page=${page}&sort=${sort}&sort_by=ID'),
         headers: headers);
 
     if (response.statusCode == 200) {
@@ -87,24 +88,18 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
 
   String dropdownValue = "Box Packing";
   // orderStatusMap.values.first.toString();
-  Future<bool> getOrdersApiByID(String sortOrder) async {
+  Future<bool> getOrdersApiByID() async {
     String token = widget.profile.token.toString();
     print("token is + ${token}");
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${token}'
     };
-    var request = http.Request(
-        'GET',
-        Uri.parse(
-            'https://apiv2.shiprocket.in/v1/external/orders?sort_by=status&sort=${sortOrder}'));
-
-    request.headers.addAll(headers);
 
     // http.StreamedResponse response = await request.send();
     var response = await http.get(
         Uri.parse(
-            'https://apiv2.shiprocket.in/v1/external/orders?sort_by=status&sort=${sortOrder}'),
+            'https://apiv2.shiprocket.in/v1/external/orders?filter_by=${FilterBy}&filter=${filter}&page=${page}&sort=${sort}&sort_by=ID'),
         headers: headers);
 
     if (response.statusCode == 200) {
@@ -172,9 +167,12 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            orderSortUp
-                                ? getOrdersApiByID("ASC")
-                                : getOrdersApiByID("DESC");
+                            orders.data = [];
+                            page = 0;
+                            orders.meta = null;
+                            sort = orderSortUp ? "ASC" : "DESC";
+                            getOrdersApiByID();
+
                             setState(() {
                               orderSortUp = !orderSortUp;
                             });
