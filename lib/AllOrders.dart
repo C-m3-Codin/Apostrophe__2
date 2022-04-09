@@ -26,10 +26,38 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
   bool orderSortUp = true;
   bool FilterOn = false;
   int page = 0;
+  String FilterBy = "payment_method";
+  String filter = "cod";
 
-  // Future<bool> getFilteredApi() {
-  //   return false;
-  // }
+  Future<bool> getFilteredApi(int page) async {
+    print("gonna fetch filter");
+    String token = widget.profile.token.toString();
+    print("token is + ${token}");
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}'
+    };
+
+    print(
+        "filter on  fetch filter url https://apiv2.shiprocket.in/v1/external/orders?filter_by=${FilterBy}&filter=${filter}&page=${page} ");
+
+    var response = await http.get(
+        Uri.parse(
+            'https://apiv2.shiprocket.in/v1/external/orders?filter_by=${FilterBy}&filter=${filter}&page=${page}'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      // print(response.body.toString());
+      Orders temp = Orders.fromJson(json.decode(response.body.toString()));
+      orders.data!.addAll(temp.data!);
+      orders.meta = temp.meta;
+      setState(() {});
+      return true;
+    } else {
+      print(response.body.toString());
+      throw Exception('Failed to load album');
+    }
+  }
 
   Future<bool> getOrdersApi({int page = 0}) async {
     String token = widget.profile.token.toString();
@@ -116,7 +144,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
             print("stop scrolling");
           } else {
             page++;
-            getOrdersApi(page: page);
+            FilterOn ? getFilteredApi(page) : getOrdersApi();
           }
         }
         // orders=
@@ -185,8 +213,12 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                             style: ElevatedButton.styleFrom(
                                 primary: FilterOn ? Colors.blue : Colors.grey),
                             onPressed: () {
+                              print("pressed Filter");
                               FilterOn = !FilterOn;
-
+                              page = 0;
+                              orders.data = [];
+                              orders.meta = null;
+                              getFilteredApi(page);
                               setState(() {});
                             },
                             child: FilterOn
@@ -203,11 +235,17 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                             color: Colors.deepPurpleAccent,
                           ),
                           onChanged: (String? newValue) {
+                            FilterBy = "status";
+                            filter = statusCodeVals[newValue].toString();
+
                             setState(() {
+                              if (FilterOn) {
+                                FilterOn = false;
+                              }
                               dropdownValue = newValue!;
                             });
                           },
-                          items: statusCodeVals.values
+                          items: statusCodeVals.keys
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -236,157 +274,172 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
                       // Container(
                       height: MediaQuery.of(context).size.height - 200,
-                      child: ListView.builder(
-                          controller: _scrollController,
-                          shrinkWrap: true,
-                          // physics: NeverScrollableScrollPhysics(),
-                          itemCount: list.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                print(list[index]);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        OrderDetails(order: list[index]),
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Card(
-                                  elevation: 2.0,
+                      child: list.length == 0
+                          ? Center(
+                              child: Text("No Data to show"),
+                            )
+                          : ListView.builder(
+                              controller: _scrollController,
+                              shrinkWrap: true,
+                              // physics: NeverScrollableScrollPhysics(),
+                              itemCount: list.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () {
+                                    print(list[index]);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            OrderDetails(order: list[index]),
+                                      ),
+                                    );
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                        child: Column(
-                                      children: [
-                                        // name
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                    child: Card(
+                                      elevation: 2.0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                            child: Column(
                                           children: [
-                                            Column(
+                                            // name
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text("ID:",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                        color:
-                                                            Colors.blueGrey)),
-                                                Text(
-                                                  list[index].id.toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                      color: Colors.black),
+                                                Column(
+                                                  children: [
+                                                    Text("ID:",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20,
+                                                            color: Colors
+                                                                .blueGrey)),
+                                                    Text(
+                                                      list[index].id.toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text("Name:",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20,
+                                                            color: Colors
+                                                                .blueGrey)),
+                                                    Text(
+                                                      list[index]
+                                                                  .customerName!
+                                                                  .length <
+                                                              17
+                                                          ? list[index]
+                                                              .customerName!
+                                                          : list[index]
+                                                                  .customerName!
+                                                                  .substring(
+                                                                      0, 16) +
+                                                              "...",
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      maxLines: 1,
+                                                      softWrap: false,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                            Column(
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text("Name:",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                        color:
-                                                            Colors.blueGrey)),
                                                 Text(
-                                                  list[index]
-                                                              .customerName!
-                                                              .length <
-                                                          17
-                                                      ? list[index]
-                                                          .customerName!
-                                                      : list[index]
-                                                              .customerName!
-                                                              .substring(
-                                                                  0, 16) +
-                                                          "...",
-                                                  overflow: TextOverflow.fade,
-                                                  maxLines: 1,
-                                                  softWrap: false,
+                                                  "status:",
                                                   style: TextStyle(
                                                       fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                      color: Colors.black),
+                                                          FontWeight.w500,
+                                                      color: Colors.blueGrey,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                  list[index].status.toString(),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blue,
+                                                      fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Email:",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blueGrey,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                  list[index].customerEmail!,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blue,
+                                                      fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Phone:",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blueGrey,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                  list[index].customerPhone!,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blue,
+                                                      fontSize: 15),
                                                 ),
                                               ],
                                             ),
                                           ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "status:",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.blueGrey,
-                                                  fontSize: 15),
-                                            ),
-                                            Text(
-                                              list[index].status.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.blue,
-                                                  fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Email:",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.blueGrey,
-                                                  fontSize: 15),
-                                            ),
-                                            Text(
-                                              list[index].customerEmail!,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.blue,
-                                                  fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Phone:",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.blueGrey,
-                                                  fontSize: 15),
-                                            ),
-                                            Text(
-                                              list[index].customerPhone!,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.blue,
-                                                  fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
+                                        )),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
-                          }),
+                                );
+                              }),
                     );
                     // Center(
                     //     child: Text(
