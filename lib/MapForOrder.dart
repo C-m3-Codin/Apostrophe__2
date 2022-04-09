@@ -1,8 +1,8 @@
-// ignore: file_names
 import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
 import 'package:apostrophe/Models/MapDetailsModel.dart';
+import 'package:apostrophe/Models/OrderSpecificsModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:apostrophe/LoginPage.dart';
 import 'package:apostrophe/Models/track.dart';
@@ -12,15 +12,16 @@ import 'package:flutter_json_view/flutter_json_view.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-class MapDisplay extends StatefulWidget {
-  TrackingData trackingData;
-  MapDisplay({Key? key, required this.trackingData}) : super(key: key);
+class MapShip extends StatefulWidget {
+  OrderSpecifics orderDetails;
+  // TrackingData trackingData;
+  MapShip({Key? key, required this.orderDetails}) : super(key: key);
 
   @override
-  State<MapDisplay> createState() => _MapDisplayState();
+  State<MapShip> createState() => _MapShipState();
 }
 
-class _MapDisplayState extends State<MapDisplay> {
+class _MapShipState extends State<MapShip> {
   double doubleInRange(Random source, num start, num end) =>
       source.nextDouble() * (end - start) + start;
   List<Marker> allMarkers = [];
@@ -41,18 +42,10 @@ class _MapDisplayState extends State<MapDisplay> {
         path: "/v1/forward",
         queryParameters: {
           "access_key": "e1c01ad604d0cc6d25c6680feb61adfb",
-          "query": "Shahjahanpur"
+          "query": widget.orderDetails.data.billingCity +
+              " " +
+              widget.orderDetails.data.billingStateName
         });
-    var request = http.Request(
-        'GET',
-        Uri(
-            scheme: 'http',
-            host: 'api.positionstack.com',
-            path: "/v1/forward",
-            queryParameters: {
-              "access_key": "e1c01ad604d0cc6d25c6680feb61adfb",
-              "query": widget.trackingData.shipmentTrack[0].deliveredTo
-            }));
 
     // request.headers.addAll(headers);
 
@@ -74,11 +67,6 @@ class _MapDisplayState extends State<MapDisplay> {
   @override
   void initState() {
     super.initState();
-    var k = widget.trackingData.shipmentTrack.forEach((element) {
-      delivered = element.deliveredTo.toString();
-      destination = element.destination.toString();
-      origin = element.origin.toString();
-    });
 
 // getLatLong
     map = getLatLong();
@@ -94,6 +82,11 @@ class _MapDisplayState extends State<MapDisplay> {
           future: map,
           builder: (BuildContext context, AsyncSnapshot<MapTrack> snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.data.isEmpty) {
+                return Center(
+                  child: Text("Couldnt find place"),
+                );
+              }
               return FlutterMap(
                 options: MapOptions(
                   center: LatLng(28.38, 77.12),
@@ -108,34 +101,7 @@ class _MapDisplayState extends State<MapDisplay> {
                   MarkerLayerOptions(markers: [
                     Marker(
                         width: 80.0,
-                        height: 80.0,
-                        point: LatLng(33.76750416182363, 74.09102457035667),
-                        builder: (context) {
-                          return Container(
-                            child: GestureDetector(
-                              onTap: (() {
-                                mapOneTapped = true;
-                                setState(() {});
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        trackDetails(
-                                            dataTrack: widget.trackingData),
-                                  ),
-                                );
-                              }),
-                              child: const Icon(
-                                Icons.person,
-                                size: 20,
-                                color: Colors.red,
-                              ),
-                            ),
-                          );
-                        }),
-                    Marker(
-                        width: 80.0,
-                        height: 80.0,
+                        // height: 80.0,
                         point: LatLng(snapshot.data!.data[0].latitude,
                             snapshot.data!.data[0].longitude),
                         builder: (context) {
@@ -144,14 +110,14 @@ class _MapDisplayState extends State<MapDisplay> {
                               onTap: (() {
                                 mapOneTapped = true;
                                 setState(() {});
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        trackDetails(
-                                            dataTrack: widget.trackingData),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute<void>(
+                                //     builder: (BuildContext context) =>
+                                //         trackDetails(
+                                //             dataTrack: widget.trackingData),
+                                //   ),
+                                // );
                               }),
                               child: const Icon(
                                 Icons.person,
@@ -173,6 +139,10 @@ class _MapDisplayState extends State<MapDisplay> {
               //   child:
               //       Container(child: Text("${snapshot.data!.data.toString()}")),
               // );
+            } else {
+              return Center(
+                child: Text("loading"),
+              );
             }
             return FlutterMap(
               options: MapOptions(
@@ -196,14 +166,14 @@ class _MapDisplayState extends State<MapDisplay> {
                             onTap: (() {
                               mapOneTapped = true;
                               setState(() {});
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      trackDetails(
-                                          dataTrack: widget.trackingData),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute<void>(
+                              //     builder: (BuildContext context) =>
+                              //         trackDetails(
+                              //             dataTrack: widget.trackingData),
+                              //   ),
+                              // );
                             }),
                             child: const Icon(
                               Icons.person,
@@ -223,14 +193,14 @@ class _MapDisplayState extends State<MapDisplay> {
                             onTap: (() {
                               mapOneTapped = true;
                               setState(() {});
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      trackDetails(
-                                          dataTrack: widget.trackingData),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute<void>(
+                              //     builder: (BuildContext context) =>
+                              //         trackDetails(
+                              //             dataTrack: widget.trackingData),
+                              //   ),
+                              // );
                             }),
                             child: const Icon(
                               Icons.person,

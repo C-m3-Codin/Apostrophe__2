@@ -169,7 +169,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                 child: Card(
                     child: ExpansionTile(
               title: Text(
-                "items.playerName",
+                "Filter Options",
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
               ),
               children: <Widget>[
@@ -229,35 +229,6 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    // Column(
-                    //   children: [
-                    //     ElevatedButton(
-                    //         style: buttonSelected[0] ? buttonOn : buttonOff,
-                    //         onPressed: () {
-                    //           buttonSelected = [true, false, false];
-                    //           FilterBy = "payment_method";
-                    //           setState(() {});
-                    //         },
-                    //         child: Text("Payment")),
-                    //     ElevatedButton(
-                    //         style: buttonSelected[1] ? buttonOn : buttonOff,
-                    //         onPressed: () {
-                    //           buttonSelected = [false, true, false];
-                    //           FilterBy = "channel_order_id";
-                    //           setState(() {});
-                    //         },
-                    //         child: Text("channel")),
-                    //     ElevatedButton(
-                    //         style: buttonSelected[2] ? buttonOn : buttonOff,
-                    //         onPressed: () {
-                    //           buttonSelected = [false, false, true];
-                    //           FilterBy = "status";
-                    //           statusCodeVals.keys.toList();
-                    //           setState(() {});
-                    //         },
-                    //         child: Text("status")),
-                    //   ],
-                    // ),
                     DropdownButton<String>(
                       value: dropDownFilterBy,
                       icon: const Icon(Icons.arrow_downward),
@@ -369,7 +340,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                     return Container(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
                       // Container(
-                      height: MediaQuery.of(context).size.height - 200,
+                      height: MediaQuery.of(context).size.height - 100,
                       child: list.length == 0
                           ? Center(
                               child: Text("No Data to show"),
@@ -384,12 +355,14 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                                   onTap: () {
                                     print(list[index]);
                                     Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            OrderDetails(order: list[index]),
-                                      ),
-                                    );
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                OrderDetails(
+                                                  ord: list[index],
+                                                  auth: widget.profile.token
+                                                      .toString(),
+                                                )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),

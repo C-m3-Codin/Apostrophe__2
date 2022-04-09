@@ -73,7 +73,7 @@ class Datum {
         postalCode: json["postal_code"] ?? "null",
         confidence: json["confidence"].toString(),
         region: json["region"] ?? "null",
-        regionCode: json["region_code"],
+        regionCode: json["region_code"].toString(),
         administrativeArea: json["administrative_area"] ?? "null",
         neighbourhood: json["neighbourhood"] ?? "null",
         country: json["country"] ?? "null",
