@@ -118,6 +118,8 @@ class _TrackState extends State<TrackPage> {
                         child:
                             Text('Error: No awb order found on that number'));
                   } else {
+                    TrackingData? result = snapshot.data?.trackingData;
+                    ShipmentTrack? shipmenttrack = result?.shipmentTrack[0];
                     Map<int, String> shipment = {
                       1: "AWB Assigned",
                       2: "Label Generated",
@@ -166,81 +168,184 @@ class _TrackState extends State<TrackPage> {
                       57: "Custom Cleared Overseas",
                       59: "Box Packing"
                     };
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                    return Container(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                child: Column(
                                   children: [
-                                    Column(
-                                      children: [
-                                        Icon(Icons.calendar_month),
-                                      ],
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.90,
+                                      child: Card(
+                                        elevation: 2,
+                                        child: Column(
+                                          children: [
+                                            TextButton.icon(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute<void>(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          MapDisplay(
+                                                              trackingData: snapshot
+                                                                  .data!
+                                                                  .trackingData!),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                    Icons.location_on_rounded),
+                                                label: Text("Track in Map")),
+                                            Entries(
+                                                context,
+                                                "Track Status",
+                                                (result?.trackStatus)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Shipment Status",
+                                                (result?.shipmentStatus)
+                                                    .toString()),
+                                            Entries(context, "ETD",
+                                                (result?.etd).toString()),
+                                            Entries(context, "Shipment ID",
+                                                (shipmenttrack?.id).toString()),
+                                            Entries(
+                                                context,
+                                                "AWB number",
+                                                (shipmenttrack?.awbCode)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Company ID",
+                                                (shipmenttrack
+                                                        ?.courierCompanyId)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Shipment ID",
+                                                (shipmenttrack?.shipmentId)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Order ID",
+                                                (shipmenttrack?.orderId)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Status",
+                                                (shipmenttrack?.currentStatus)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Pickup Date",
+                                                (shipmenttrack?.pickupDate)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Delivered Date",
+                                                (shipmenttrack?.deliveredDate)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Origin",
+                                                (shipmenttrack?.origin)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Destination",
+                                                (shipmenttrack?.destination)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Delivered To",
+                                                (shipmenttrack?.deliveredTo)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Weight",
+                                                (shipmenttrack?.weight)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Packages",
+                                                (shipmenttrack?.packages)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Consignee Name",
+                                                (shipmenttrack?.consigneeName)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Agent Details",
+                                                (shipmenttrack
+                                                        ?.courierAgentDetails)
+                                                    .toString()),
+                                            Entries(context, "Track",
+                                                (result?.trackUrl).toString()),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                    GestureDetector(
-                                      onDoubleTap: () {},
-                                      child: Text(snapshot
-                                          .data!.trackingData!.etd
-                                          .toString()),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text("status : "),
-                                    Text(shipment[snapshot
-                                            .data!.trackingData!.shipmentStatus]
-                                        .toString())
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  MapDisplay(
-                                                      trackingData: snapshot
-                                                          .data!.trackingData!),
-                                            ),
+                                    ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data!.trackingData!
+                                            .shipmentTrack.length,
+                                        itemBuilder: (context, i) {
+                                          return SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: JsonView.map(snapshot
+                                                .data!.trackingData!
+                                                .toJson()),
                                           );
-                                        },
-                                        icon: Icon(Icons.map))
+                                        })
                                   ],
                                 ),
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data!.trackingData!
-                                        .shipmentTrack.length,
-                                    itemBuilder: (context, i) {
-                                      return SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: JsonView.map(snapshot
-                                            .data!.trackingData!
-                                            .toJson()),
-                                      );
-                                    })
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     );
                   }
                 }
               },
             ),
+    );
+  }
+
+  Padding Entries(BuildContext context, String title, String result) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.40,
+            child: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text(
+            " : ",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.40,
+            child: Text(
+              result,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -283,8 +388,8 @@ class _TrackState extends State<TrackPage> {
                                 padding: const EdgeInsets.all(10),
                                 child: IconButton(
                                     onPressed: () {
-                                      trackapi =
-                                          getTrackAWB(searchQueryAWB.text);
+                                      trackapi = getTrackAWB("277553044205");
+                                      // getTrackAWB(searchQueryAWB.text);
                                       searched = true;
                                       setState(() {});
                                     },
