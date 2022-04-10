@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:apostrophe/AllOrders.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/TracksPage.dart';
-import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   final Profile profile;
@@ -21,7 +23,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Apostrophe"),
+        title: Text(
+          "Apostrophe",
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -35,43 +40,43 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: _pageController,
         children: [
-          Container(
-            child: ShowAllOrders(
-              profile: widget.profile,
-            ),
+          ShowAllOrders(
+            profile: widget.profile,
           ),
-          Container(
-              child: TrackPage(
+          TrackPage(
             profile: widget.profile,
             awb: "277553044205",
-          )),
-          Container(child: ProfilePage(profile: widget.profile)),
+          ),
+          ProfilePage(profile: widget.profile),
         ],
         onPageChanged: (index) {
           setState(() => _currentPage = index);
         },
       ),
-      bottomNavigationBar: BottomBar(
-        selectedIndex: _currentPage,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentPage,
         onTap: (int index) {
           _pageController.jumpToPage(index);
           setState(() => _currentPage = index);
         },
-        items: <BottomBarItem>[
-          BottomBarItem(
+        elevation: 5.0,
+        iconSize: 30.0,
+        selectedFontSize: 16.0,
+        unselectedFontSize: 13.0,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
-            activeColor: Colors.blue,
+            label: 'Home',
           ),
-          BottomBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.track_changes_outlined),
-            title: Text('Track'),
-            activeColor: Colors.blue,
+            label: 'Track',
           ),
-          BottomBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Profile'),
-            activeColor: Colors.blue,
+            label: 'Profile',
           )
         ],
       ),
@@ -103,20 +108,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "HELLO!",
-                      style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                      "Hello!",
+                      style: GoogleFonts.alegreyaSansSc(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 30),
                     Text(
                       (widget.profile.firstName! +
-                              " " +
-                              widget.profile.lastName!)
-                          .toUpperCase(),
-                      style: TextStyle(
+                          " " +
+                          widget.profile.lastName!),
+                      style: GoogleFonts.alegreyaSansSc(
                           fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).primaryColor),
                     )
                   ]),
             ),
@@ -126,9 +132,11 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              showdetails("Email", widget.profile.email),
-              showdetails("Company", widget.profile.companyId.toString()),
-              showdetails("Created", (widget.profile.createdAt!).split(" ")[0]),
+              showdetails("Email", widget.profile.email, context),
+              showdetails(
+                  "Company", widget.profile.companyId.toString(), context),
+              showdetails("Created", (widget.profile.createdAt!).split(" ")[0],
+                  context),
             ],
           ),
         ),
@@ -137,25 +145,25 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-showdetails(String s, String? email) {
+showdetails(String s, String? email, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child: Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              s + " " + ":" + " ",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              email!,
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-            )
-          ],
-        ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            s + " " + ":" + " ",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            email!,
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor),
+          )
+        ],
       ),
     ),
   );

@@ -245,7 +245,7 @@ class Data {
         billingStateName: json["billing_state_name"],
         billingAddress: json["billing_address"],
         billingCountryName: json["billing_country_name"],
-        billingPincode: json["billing_pincode"],
+        billingPincode: json["billing_pincode"].toString(),
         billingAddress2: json["billing_address_2"],
         billingMobileCountryCode: json["billing_mobile_country_code"],
         billingStateId: json["billing_state_id"].toString(),

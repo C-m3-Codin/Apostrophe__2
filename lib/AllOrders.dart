@@ -44,7 +44,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
     print("token is + ${token}");
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}'
+      'Authorization': 'Bearer $token'
     };
 
     print(
@@ -73,7 +73,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
     print("token is + ${token}");
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}'
+      'Authorization': 'Bearer $token'
     };
 
     var response = await http.get(
@@ -167,184 +167,204 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
         // physics: ScrollPhysics(),
         child: Column(
           children: [
-            Container(
-                // height: 250,
-                child: Card(
-                    child: ExpansionTile(
-              title: Row(
-                children: const [
-                  Text(
-                    " Filter Options",
-                    style:
-                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                  ),
-                  // Text(
-                  //   "Filter Options",
-                  //   style:
-                  //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                  // ),
-                  // Text(
-                  //   "Filter Options",
-                  //   style:
-                  //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                  // ),
-                ],
-              ),
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          orders.data = [];
-                          page = 0;
-                          orders.meta = null;
-                          sort = orderSortUp ? "ASC" : "DESC";
-                          getOrdersApiByID();
-
-                          setState(() {
-                            orderSortUp = !orderSortUp;
-                          });
-                        },
-                        child: Row(children: [
-                          Text("sort"),
-                          orderSortUp
-                              ? Icon(Icons.arrow_upward)
-                              : Icon(Icons.arrow_downward),
-                        ])),
-
-                    ElevatedButton(
-                        onPressed: null,
-                        child: FutureBuilder(
-                            // future: orders,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<Orders> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          } else {
-                            return Text("Order Count ${orders.data!.length}");
-                          }
-                        })),
-
-                    // ElevatedButton(onPressed: null, child: )
+            Card(
+              child: ExpansionTile(
+                title: Row(
+                  children: const [
+                    Text(
+                      " Filter",
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500),
+                    ),
+                    // Text(
+                    //   "Filter Options",
+                    //   style:
+                    //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                    // ),
+                    // Text(
+                    //   "Filter Options",
+                    //   style:
+                    //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                    // ),
                   ],
                 ),
-                ElevatedButton(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            orders.data = [];
+                            page = 0;
+                            orders.meta = null;
+                            sort = orderSortUp ? "ASC" : "DESC";
+                            getOrdersApiByID();
 
-                    //to do change coor of button depending on the status of the button
-                    style: ElevatedButton.styleFrom(
-                        primary: FilterOn ? Colors.blue : Colors.grey),
-                    onPressed: () {
-                      print("pressed Filter");
-                      FilterOn = !FilterOn;
-                      page = 0;
-                      orders.data = [];
-                      orders.meta = null;
-                      getFilteredApi(page);
-                      setState(() {});
-                    },
-                    child: FilterOn ? Text("Filter On") : Text("Filter Off")),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    DropdownButton<String>(
-                      value: dropDownFilterBy,
-                      icon: const Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        // width: 50,
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? newValue) {
-                        // FilterBy = "status";
-                        if (newValue == "payment") {
-                          FilterBy = newValue.toString();
-                          // filter =
-                          channelIDSelected = false;
-                          dropOptions = ["cod", "payment"];
+                            setState(() {
+                              orderSortUp = !orderSortUp;
+                            });
+                          },
+                          child: Row(children: [
+                            Text("Sort"),
+                            orderSortUp
+                                ? Icon(Icons.arrow_upward)
+                                : Icon(Icons.arrow_downward),
+                          ])),
 
-                          filter = dropOptions[0];
-                          dropdownValue = filter;
-                        } else if (newValue == "status") {
-                          FilterBy = newValue.toString();
-                          channelIDSelected = false;
-                          dropOptions = statusCodeVals.keys.toList();
-                          filter = dropOptions[0];
-                          dropdownValue = filter;
-                        } else {
-                          FilterBy = "channel_order_id";
-                          channelIDSelected = true;
-                        }
+                      ElevatedButton(
+                          onPressed: null,
+                          child: FutureBuilder(
+                              // future: orders,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<Orders> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              return Text("Order Count ${orders.data!.length}");
+                            }
+                          })),
 
-                        setState(() {
-                          if (FilterOn) {
-                            FilterOn = false;
+                      // ElevatedButton(onPressed: null, child: )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      DropdownButton<String>(
+                        value: dropDownFilterBy,
+                        icon: const Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.deepPurple),
+                        underline: Container(
+                          // width: 50,
+                          height: 2,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        onChanged: (String? newValue) {
+                          // FilterBy = "status";
+                          if (newValue == "payment") {
+                            FilterBy = newValue.toString();
+                            // filter =
+                            channelIDSelected = false;
+                            dropOptions = ["cod", "payment"];
+
+                            filter = dropOptions[0];
+                            dropdownValue = filter;
+                          } else if (newValue == "status") {
+                            FilterBy = newValue.toString();
+                            channelIDSelected = false;
+                            dropOptions = statusCodeVals.keys.toList();
+                            filter = dropOptions[0];
+                            dropdownValue = filter;
+                          } else {
+                            FilterBy = "channel_order_id";
+                            channelIDSelected = true;
                           }
-                          dropDownFilterBy = newValue!;
-                        });
-                      },
-                      items: ["payment", "status", "channel"]
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    channelIDSelected
-                        ? Container(
-                            // height: 100,
-                            width: 100,
-                            child: TextField(
-                              onChanged: (value) {
-                                print("value changed ${value}");
-                                filter = value.toString();
-                              },
-                              controller: enterFilterFalue,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: 'Channel id',
-                                  hintText: 'Enter Channel id'),
-                            ),
-                          )
-                        : DropdownButton<String>(
-                            value: dropdownValue,
-                            icon: const Icon(Icons.arrow_downward),
-                            elevation: 16,
-                            style: const TextStyle(color: Colors.deepPurple),
-                            underline: Container(
-                              width: 50,
-                              height: 2,
-                              color: Colors.deepPurpleAccent,
-                            ),
-                            onChanged: (String? newValue) {
-                              // FilterBy = "status";
-                              filter = FilterBy == "status"
-                                  ? statusCodeVals[newValue].toString()
-                                  : newValue.toString();
 
-                              setState(() {
-                                if (FilterOn) {
-                                  FilterOn = false;
-                                }
-                                dropdownValue = newValue!;
-                              });
-                            },
-                            items: dropOptions
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                  ],
-                )
-              ],
-            ))),
+                          setState(() {
+                            if (FilterOn) {
+                              FilterOn = false;
+                            }
+                            dropDownFilterBy = newValue!;
+                          });
+                        },
+                        items: ["payment", "status", "channel"]
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      channelIDSelected
+                          ? Container(
+                              // height: 100,
+                              width: 100,
+                              child: TextField(
+                                onChanged: (value) {
+                                  print("value changed ${value}");
+                                  filter = value.toString();
+                                },
+                                controller: enterFilterFalue,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    labelText: 'Channel id',
+                                    hintText: 'Enter Channel id'),
+                              ),
+                            )
+                          : DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.deepPurple),
+                              underline: Container(
+                                width: 50,
+                                height: 2,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              onChanged: (String? newValue) {
+                                // FilterBy = "status";
+                                filter = FilterBy == "status"
+                                    ? statusCodeVals[newValue].toString()
+                                    : newValue.toString();
+
+                                setState(() {
+                                  if (FilterOn) {
+                                    FilterOn = false;
+                                  }
+                                  dropdownValue = newValue!;
+                                });
+                              },
+                              items: dropOptions.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        //to do change coor of button depending on the status of the button
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
+                        onPressed: () {
+                          print("pressed Filter on");
+                          FilterOn = true;
+                          page = 0;
+                          orders.data = [];
+                          orders.meta = null;
+                          getFilteredApi(page);
+                          setState(() {});
+                        },
+                        child: Text("Apply Filters"),
+                      ),
+                      ElevatedButton(
+                        //to do change coor of button depending on the status of the button
+                        style: ElevatedButton.styleFrom(primary: Colors.grey),
+                        onPressed: () {
+                          print("pressed Filter off");
+                          FilterOn = false;
+                          page = 0;
+                          orders.data = [];
+                          orders.meta = null;
+                          FilterBy = "";
+                          filter = "";
+                          getFilteredApi(page);
+                          setState(() {});
+                        },
+                        child: Text("Clear Filters"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             FutureBuilder(
               // future: orders,
               builder: (BuildContext context, AsyncSnapshot<Orders> snapshot) {
