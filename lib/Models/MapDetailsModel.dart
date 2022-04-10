@@ -14,10 +14,10 @@ class MapTrack {
     required this.data,
   });
 
-  List<Datum> data;
+  List<Datumm> data;
 
   factory MapTrack.fromJson(Map<String, dynamic> json) => MapTrack(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<Datumm>.from(json["data"].map((x) => Datumm.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -25,8 +25,8 @@ class MapTrack {
       };
 }
 
-class Datum {
-  Datum({
+class Datumm {
+  Datumm({
     required this.latitude,
     required this.longitude,
     required this.label,
@@ -62,7 +62,7 @@ class Datum {
   String countryCode;
   String mapUrl;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Datumm.fromJson(Map<String, dynamic> json) => Datumm(
         latitude: json["latitude"].toDouble(),
         longitude: json["longitude"].toDouble(),
         label: json["label"],

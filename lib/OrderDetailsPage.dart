@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:apostrophe/MapForOrder.dart';
+import 'package:apostrophe/Models/MapDetailsModel.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:http/http.dart' as http;
 import 'package:apostrophe/Models/OrderSpecificsModel.dart';
 import 'package:apostrophe/Models/allOrderModel.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:latlong2/latlong.dart';
 
 // TODO:
 // add more details for order
@@ -20,6 +23,35 @@ class OrderDetails extends StatefulWidget {
 
 class _OrderDetailsState extends State<OrderDetails> {
   late Future<OrderSpecifics> orderDetails;
+
+  late Future<MapTrack> map;
+  Future<MapTrack> getLatLong(
+      String billingCity, String billingStateName) async {
+    var uri = Uri(
+        scheme: 'http',
+        host: 'api.positionstack.com',
+        path: "/v1/forward",
+        queryParameters: {
+          "access_key": "e1c01ad604d0cc6d25c6680feb61adfb",
+          "query": billingCity + " " + billingStateName
+        });
+
+    // request.headers.addAll(headers);
+
+    // http.StreamedResponse response = await request.send();
+    print("url is ${uri} ");
+    var response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      print("\n\n\n response from map ok ${response.body.toString()}");
+      // print(response.body.toString());
+      return MapTrack.fromJson(json.decode(response.body.toString()));
+    } else {
+      print("\n\n\n response from map bad ${response.body.toString()}");
+      print(response.body.toString());
+      throw Exception('Failed to load album');
+    }
+  }
 
   Future<OrderSpecifics> getOrderSpecsApi() async {
     String token = widget.auth.toString();
@@ -62,142 +94,251 @@ class _OrderDetailsState extends State<OrderDetails> {
               if (order.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else {
+                map = getLatLong(order.data!.data.billingCity,
+                    order.data!.data.billingStateName);
                 return Container(
                     child: SizedBox(
                         child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Expanded(
-                          child: Card(
-                            child: Wrap(
-                              spacing: 20,
-                              runSpacing: 20,
-                              runAlignment: WrapAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Text("Customer Name: "),
-                                    Text(order.data!.data.customerName
-                                        .toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Customer Email: "),
-                                    Text(order.data!.data.customerEmail
-                                        .toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Customer Phone: "),
-                                    Text(order.data!.data.customerPhone
-                                        .toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Order Created At: "),
-                                    Text(order.data!.data.createdAt.toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Return Allowed: "),
-                                    Text(order.data!.data.allowReturn == 1
-                                        ? "Yes"
-                                        : "No"),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Order Pickup Location: "),
-                                    Text(order.data!.data.pickupLocation
-                                        .toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Order Shipping title: "),
-                                    Text(order.data!.data.shippingTitle
-                                        .toString())
-                                    // .shippingMethod.toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Order Total: "),
-                                    Text(order.data!.data.total.toString()),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Text("Order Tax: "),
-                                    Text(order.data!.data.tax.toString()),
-                                  ],
-                                ),
-                                Card(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          launch("tel://21213123123");
-                                        },
-                                        child: Icon(Icons.call),
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView(
+                                shrinkWrap: true,
+                                physics: ClampingScrollPhysics(),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Expanded(
+                                      child: Card(
+                                        child: Wrap(
+                                          spacing: 20,
+                                          runSpacing: 20,
+                                          runAlignment: WrapAlignment.center,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Text("Customer Name: "),
+                                                Text(order
+                                                    .data!.data.customerName
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text("Customer Email: "),
+                                                Text(order
+                                                    .data!.data.customerEmail
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text("Customer Phone: "),
+                                                Text(order
+                                                    .data!.data.customerPhone
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                    "Order Created At: "),
+                                                Text(order.data!.data.createdAt
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text("Return Allowed: "),
+                                                Text(order.data!.data
+                                                            .allowReturn ==
+                                                        1
+                                                    ? "Yes"
+                                                    : "No"),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                    "Order Pickup Location: "),
+                                                Text(order
+                                                    .data!.data.pickupLocation
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                    "Order Shipping title: "),
+                                                Text(order
+                                                    .data!.data.shippingTitle
+                                                    .toString())
+                                                // .shippingMethod.toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text("Order Total: "),
+                                                Text(order.data!.data.total
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text("Order Tax: "),
+                                                Text(order.data!.data.tax
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Card(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      launch(
+                                                          "tel://21213123123");
+                                                    },
+                                                    child: Icon(Icons.call),
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      String?
+                                                          encodeQueryParameters(
+                                                              Map<String,
+                                                                      String>
+                                                                  params) {
+                                                        return params.entries
+                                                            .map((e) =>
+                                                                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                                            .join('&');
+                                                      }
+
+                                                      final Uri emailLaunchUri =
+                                                          Uri(
+                                                              scheme: 'mailto',
+                                                              path: order
+                                                                  .data!
+                                                                  .data
+                                                                  .customerEmail,
+                                                              query:
+                                                                  encodeQueryParameters(
+                                                                <String,
+                                                                    String>{
+                                                                  'subject':
+                                                                      'Regarding the order Number ${order.data!.data.id}'
+                                                                },
+                                                              ));
+
+                                                      launch(emailLaunchUri
+                                                          .toString());
+                                                    },
+                                                    child: Icon(Icons.mail),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          String? encodeQueryParameters(
-                                              Map<String, String> params) {
-                                            return params.entries
-                                                .map((e) =>
-                                                    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                                                .join('&');
-                                          }
-
-                                          final Uri emailLaunchUri = Uri(
-                                              scheme: 'mailto',
-                                              path: order
-                                                  .data!.data.customerEmail,
-                                              query: encodeQueryParameters(
-                                                <String, String>{
-                                                  'subject':
-                                                      'Regarding the order Number ${order.data!.data.id}'
-                                                },
-                                              ));
-
-                                          launch(emailLaunchUri.toString());
-                                        },
-                                        child: Icon(Icons.mail),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      MapShip(orderDetails: order.data!)));
-                        },
-                        child: Container(
-                          child: Icon(Icons.map_outlined),
-                        ),
-                      )
-                    ],
-                  ),
-                )));
+                                  FutureBuilder(
+                                      future: map,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<MapTrack> snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else {
+                                          print(
+                                              "${snapshot.data!.data[0].latitude}");
+                                          return Container(
+                                            height: 600,
+                                            width: 200,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(15.0),
+                                              child: FlutterMap(
+                                                options: MapOptions(
+                                                  center: LatLng(
+                                                      snapshot.data!.data[0]
+                                                          .latitude,
+                                                      snapshot.data!.data[0]
+                                                          .longitude),
+                                                  zoom: 4.0,
+                                                ),
+                                                layers: [
+                                                  TileLayerOptions(
+                                                    urlTemplate:
+                                                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                    subdomains: ['a', 'b', 'c'],
+                                                  ),
+                                                  MarkerLayerOptions(markers: [
+                                                    Marker(
+                                                        width: 80.0,
+                                                        // height: 80.0,
+                                                        point: LatLng(
+                                                            snapshot
+                                                                .data!
+                                                                .data[0]
+                                                                .latitude,
+                                                            snapshot
+                                                                .data!
+                                                                .data[0]
+                                                                .longitude),
+                                                        builder: (context) {
+                                                          return Container(
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: (() {
+                                                                // mapOneTapped = true;
+                                                                // setState(() {});
+                                                                // Navigator.push(
+                                                                //   context,
+                                                                //   MaterialPageRoute<void>(
+                                                                //     builder: (BuildContext context) =>
+                                                                //         trackDetails(
+                                                                //             dataTrack: widget.trackingData),
+                                                                //   ),
+                                                                // );
+                                                              }),
+                                                              child: const Icon(
+                                                                Icons.person,
+                                                                size: 20,
+                                                                color:
+                                                                    Colors.red,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                        // Icon(Icons.room_rounded),
+                                                        ),
+
+                                                    // ),
+                                                  ]),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }
+
+                                        // GestureDetector(
+                                        //   onTap: () {
+                                        //     Navigator.push(
+                                        //         context,
+                                        //         MaterialPageRoute(
+                                        //             builder: (BuildContext context) =>
+                                        //                 MapShip(orderDetails: order.data!)));
+                                        //   },
+                                        //   child: Container(
+                                        //     child: Icon(Icons.map_outlined),
+                                        //   ),
+                                        // )
+                                      }),
+                                ]))));
               }
             }));
   }
