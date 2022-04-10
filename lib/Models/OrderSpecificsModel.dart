@@ -82,7 +82,7 @@ class Data {
     required this.allowReturn,
     required this.isReturn,
     required this.isIncomplete,
-    required this.errors,
+    // required this.errors,
     required this.paymentCode,
     required this.billingCity,
     required this.billingName,
@@ -154,10 +154,10 @@ class Data {
   AwbData awbData;
   String returnPickupData;
   dynamic companyLogo;
-  int allowReturn;
-  int isReturn;
-  int isIncomplete;
-  List<dynamic> errors;
+  String allowReturn;
+  String isReturn;
+  String isIncomplete;
+  // List<dynamic> errors;
   dynamic paymentCode;
   String billingCity;
   String billingName;
@@ -169,8 +169,8 @@ class Data {
   String billingPincode;
   String billingAddress2;
   String billingMobileCountryCode;
-  int billingStateId;
-  int billingCountryId;
+  String billingStateId;
+  String billingCountryId;
   String resellerName;
   int shippingIsBilling;
   String ewayBillNumber;
@@ -230,10 +230,10 @@ class Data {
         awbData: AwbData.fromJson(json["awb_data"]),
         returnPickupData: json["return_pickup_data"],
         companyLogo: json["company_logo"],
-        allowReturn: json["allow_return"],
-        isReturn: json["is_return"],
-        isIncomplete: json["is_incomplete"],
-        errors: List<dynamic>.from(json["errors"].map((x) => x)),
+        allowReturn: json["allow_return"].toString(),
+        isReturn: json["is_return"].toString(),
+        isIncomplete: json["is_incomplete"].toString(),
+        // errors: List<dynamic>.from(json["errors"].map((x) => x)),
         paymentCode: json["payment_code"],
         billingCity: json["billing_city"],
         billingName: json["billing_name"],
@@ -245,8 +245,8 @@ class Data {
         billingPincode: json["billing_pincode"],
         billingAddress2: json["billing_address_2"],
         billingMobileCountryCode: json["billing_mobile_country_code"],
-        billingStateId: json["billing_state_id"],
-        billingCountryId: json["billing_country_id"],
+        billingStateId: json["billing_state_id"].toString(),
+        billingCountryId: json["billing_country_id"].toString(),
         resellerName: json["reseller_name"],
         shippingIsBilling: json["shipping_is_billing"],
         ewayBillNumber: json["eway_bill_number"],
@@ -309,7 +309,7 @@ class Data {
         "allow_return": allowReturn,
         "is_return": isReturn,
         "is_incomplete": isIncomplete,
-        "errors": List<dynamic>.from(errors.map((x) => x)),
+        // "errors": List<dynamic>.from(errors.map((x) => x)),
         "payment_code": paymentCode,
         "billing_city": billingCity,
         "billing_name": billingName,

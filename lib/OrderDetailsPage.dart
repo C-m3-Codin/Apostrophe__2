@@ -49,7 +49,8 @@ class _OrderDetailsState extends State<OrderDetails> {
     } else {
       print("\n\n\n response from map bad ${response.body.toString()}");
       print(response.body.toString());
-      throw Exception('Failed to load album');
+      // throw Exception('Failed to load album');
+      return MapTrack(data: []);
     }
   }
 
@@ -86,7 +87,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Order ID: " + widget.ord.id.toString())),
+        appBar: AppBar(title: Text("Order #" + widget.ord.id.toString())),
         body: FutureBuilder<OrderSpecifics>(
             future: orderDetails,
             builder:
@@ -253,76 +254,18 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               child:
                                                   CircularProgressIndicator());
                                         } else {
-                                          print(
-                                              "${snapshot.data!.data[0].latitude}");
-                                          return Container(
-                                            height: 600,
-                                            width: 200,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
-                                              child: FlutterMap(
-                                                options: MapOptions(
-                                                  center: LatLng(
-                                                      snapshot.data!.data[0]
-                                                          .latitude,
-                                                      snapshot.data!.data[0]
-                                                          .longitude),
-                                                  zoom: 4.0,
-                                                ),
-                                                layers: [
-                                                  TileLayerOptions(
-                                                    urlTemplate:
-                                                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                    subdomains: ['a', 'b', 'c'],
-                                                  ),
-                                                  MarkerLayerOptions(markers: [
-                                                    Marker(
-                                                        width: 80.0,
-                                                        // height: 80.0,
-                                                        point: LatLng(
-                                                            snapshot
-                                                                .data!
-                                                                .data[0]
-                                                                .latitude,
-                                                            snapshot
-                                                                .data!
-                                                                .data[0]
-                                                                .longitude),
-                                                        builder: (context) {
-                                                          return Container(
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: (() {
-                                                                // mapOneTapped = true;
-                                                                // setState(() {});
-                                                                // Navigator.push(
-                                                                //   context,
-                                                                //   MaterialPageRoute<void>(
-                                                                //     builder: (BuildContext context) =>
-                                                                //         trackDetails(
-                                                                //             dataTrack: widget.trackingData),
-                                                                //   ),
-                                                                // );
-                                                              }),
-                                                              child: const Icon(
-                                                                Icons.person,
-                                                                size: 20,
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }
-                                                        // Icon(Icons.room_rounded),
-                                                        ),
-
-                                                    // ),
-                                                  ]),
-                                                ],
-                                              ),
-                                            ),
-                                          );
+                                          if (snapshot.data!.data.isEmpty) {
+                                            return mapWidgetForDetails(
+                                                28.645093312626376,
+                                                77.07422383707488);
+                                          } else {
+                                            print(
+                                                "${snapshot.data!.data[0].latitude}");
+                                            return mapWidgetForDetails(
+                                                snapshot.data!.data[0].latitude,
+                                                snapshot
+                                                    .data!.data[0].longitude);
+                                          }
                                         }
 
                                         // GestureDetector(
@@ -341,5 +284,60 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ]))));
               }
             }));
+  }
+
+  Container mapWidgetForDetails(double latitude, double longitude) {
+    return Container(
+      height: 600,
+      width: 200,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: FlutterMap(
+          options: MapOptions(
+            center: LatLng(latitude, longitude),
+            zoom: 4.0,
+          ),
+          layers: [
+            TileLayerOptions(
+              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              subdomains: ['a', 'b', 'c'],
+            ),
+            MarkerLayerOptions(markers: [
+              Marker(
+                  width: 80.0,
+                  // height: 80.0,
+                  point: LatLng(latitude, longitude),
+                  builder: (context) {
+                    return Container(
+                      child: GestureDetector(
+                        onTap: (() {
+                          // mapOneTapped = true;
+                          // setState(() {});
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute<void>(
+                          //     builder: (BuildContext context) =>
+                          //         trackDetails(
+                          //             dataTrack: widget.trackingData),
+                          //   ),
+                          // );
+                        }),
+                        child: const Icon(
+                          Icons.person,
+                          size: 20,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  }
+                  // Icon(Icons.room_rounded),
+                  ),
+
+              // ),
+            ]),
+          ],
+        ),
+      ),
+    );
   }
 }

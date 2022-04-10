@@ -168,9 +168,24 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                 // height: 250,
                 child: Card(
                     child: ExpansionTile(
-              title: Text(
-                "Filter Options",
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+              title: Row(
+                children: [
+                  Text(
+                    " Filter Options",
+                    style:
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                  ),
+                  // Text(
+                  //   "Filter Options",
+                  //   style:
+                  //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                  // ),
+                  // Text(
+                  //   "Filter Options",
+                  //   style:
+                  //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                  // ),
+                ],
               ),
               children: <Widget>[
                 Row(
@@ -335,6 +350,9 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                   if (snapshot.hasError)
                     return Center(child: Text('Error: ${snapshot.error}'));
                   else {
+                    // for (int i = 0; i < orders.data!.length;i++){
+                    //   orders.data[i].shipments[0].deliveredDate=="ON WAY'"
+                    // }
                     // print(snapshot.data?.toJson().toString());
                     List<Datum> list = orders.data!;
                     return Container(
