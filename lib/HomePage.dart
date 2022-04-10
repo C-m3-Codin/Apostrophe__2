@@ -3,7 +3,6 @@
 import 'package:apostrophe/AllOrders.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/TracksPage.dart';
-import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +20,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Apostrophe"),
+        title: Text(
+          "Apostrophe",
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -35,43 +37,43 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: _pageController,
         children: [
-          Container(
-            child: ShowAllOrders(
-              profile: widget.profile,
-            ),
+          ShowAllOrders(
+            profile: widget.profile,
           ),
-          Container(
-              child: TrackPage(
+          TrackPage(
             profile: widget.profile,
             awb: "277553044205",
-          )),
-          Container(child: ProfilePage(profile: widget.profile)),
+          ),
+          ProfilePage(profile: widget.profile),
         ],
         onPageChanged: (index) {
           setState(() => _currentPage = index);
         },
       ),
-      bottomNavigationBar: BottomBar(
-        selectedIndex: _currentPage,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentPage,
         onTap: (int index) {
           _pageController.jumpToPage(index);
           setState(() => _currentPage = index);
         },
-        items: <BottomBarItem>[
-          BottomBarItem(
+        elevation: 5.0,
+        iconSize: 30.0,
+        selectedFontSize: 16.0,
+        unselectedFontSize: 13.0,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
-            activeColor: Colors.blue,
+            label: 'Home',
           ),
-          BottomBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.track_changes_outlined),
-            title: Text('Track'),
-            activeColor: Colors.blue,
+            label: 'Track',
           ),
-          BottomBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Profile'),
-            activeColor: Colors.blue,
+            label: 'Profile',
           )
         ],
       ),
@@ -140,22 +142,20 @@ class _ProfilePageState extends State<ProfilePage> {
 showdetails(String s, String? email) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child: Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              s + " " + ":" + " ",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              email!,
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-            )
-          ],
-        ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            s + " " + ":" + " ",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            email!,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+          )
+        ],
       ),
     ),
   );
