@@ -277,12 +277,17 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                   ),
                                                   ElevatedButton(
                                                       onPressed: () {
-                                                        // Navigator.push(
-                                                        //     context,
-                                                        //     MaterialPageRoute(
-                                                        //         builder: (BuildContext
-                                                        //                 context) =>
-                                                        //             WeviewPage()));
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    WeviewPage(
+                                                                        url: order
+                                                                            .data!
+                                                                            .data
+                                                                            .trackingUrl
+                                                                            .toString())));
                                                       },
                                                       child: Icon(Icons
                                                           .track_changes_outlined))
