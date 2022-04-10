@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:apostrophe/MapForOrder.dart';
 import 'package:apostrophe/Models/MapDetailsModel.dart';
+import 'package:apostrophe/WebView.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:http/http.dart' as http;
 import 'package:apostrophe/Models/OrderSpecificsModel.dart';
@@ -8,6 +9,7 @@ import 'package:apostrophe/Models/allOrderModel.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 // TODO:
 // add more details for order
@@ -211,7 +213,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Text("Order Total: "),
+                                                Text("Order Total:   "),
                                                 Text(order.data!.data.total
                                                     .toString()),
                                               ],
@@ -272,7 +274,18 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                           .toString());
                                                     },
                                                     child: Icon(Icons.mail),
-                                                  )
+                                                  ),
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    WeviewPage()));
+                                                      },
+                                                      child: Icon(Icons
+                                                          .track_changes_outlined))
                                                 ],
                                               ),
                                             )

@@ -83,6 +83,7 @@ class Data {
     required this.isReturn,
     required this.isIncomplete,
     // required this.errors,
+    required this.trackingUrl,
     required this.paymentCode,
     required this.billingCity,
     required this.billingName,
@@ -176,9 +177,11 @@ class Data {
   String ewayBillNumber;
   dynamic companyName;
   String shippingTitle;
+  String trackingUrl;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
+        trackingUrl: json["others"]["order_status_url"],
         channelId: json["channel_id"],
         channelName: json["channel_name"],
         baseChannelCode: json["base_channel_code"],
@@ -310,6 +313,7 @@ class Data {
         "is_return": isReturn,
         "is_incomplete": isIncomplete,
         // "errors": List<dynamic>.from(errors.map((x) => x)),
+        "order_status_url": trackingUrl,
         "payment_code": paymentCode,
         "billing_city": billingCity,
         "billing_name": billingName,
