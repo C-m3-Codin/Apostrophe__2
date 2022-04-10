@@ -355,7 +355,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                           orders.meta = null;
                           FilterBy = "";
                           filter = "";
-                          getFilteredApi(page);
+                          getOrdersApi();
                           setState(() {});
                         },
                         child: Text("Clear Filters"),
