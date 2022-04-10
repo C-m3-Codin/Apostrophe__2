@@ -3,6 +3,7 @@
 // import 'package:flutter_json_view/flutter_json_view.dart';
 import 'dart:convert';
 
+import 'package:apostrophe/Constants/Constants.dart';
 import 'package:apostrophe/Map.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/Models/track.dart';
@@ -203,13 +204,35 @@ class _TrackState extends State<TrackPage> {
                                                 label: Text("Track in Map")),
                                             Entries(
                                                 context,
+                                                "Consignee Name",
+                                                (shipmenttrack?.consigneeName)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Agent Details",
+                                                (shipmenttrack
+                                                            ?.courierAgentDetails ==
+                                                        null
+                                                    ? "Not Available"
+                                                    : (shipmenttrack
+                                                            ?.courierAgentDetails)
+                                                        .toString())),
+                                            Entries(
+                                                context,
                                                 "Track Status",
-                                                (result?.trackStatus)
+                                                (orderStatusMap[
+                                                        result?.trackStatus])
                                                     .toString()),
                                             Entries(
                                                 context,
                                                 "Shipment Status",
-                                                (result?.shipmentStatus)
+                                                (shipmentStatusMap[
+                                                        result?.shipmentStatus])
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Status",
+                                                (shipmenttrack?.currentStatus)
                                                     .toString()),
                                             Entries(context, "ETD",
                                                 (result?.etd).toString()),
@@ -235,11 +258,6 @@ class _TrackState extends State<TrackPage> {
                                                 context,
                                                 "Order ID",
                                                 (shipmenttrack?.orderId)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Status",
-                                                (shipmenttrack?.currentStatus)
                                                     .toString()),
                                             Entries(
                                                 context,
@@ -276,35 +294,12 @@ class _TrackState extends State<TrackPage> {
                                                 "Packages",
                                                 (shipmenttrack?.packages)
                                                     .toString()),
-                                            Entries(
-                                                context,
-                                                "Consignee Name",
-                                                (shipmenttrack?.consigneeName)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Agent Details",
-                                                (shipmenttrack
-                                                        ?.courierAgentDetails)
-                                                    .toString()),
                                             Entries(context, "Track",
                                                 (result?.trackUrl).toString()),
                                           ],
                                         ),
                                       ),
                                     ),
-                                    ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data!.trackingData!
-                                            .shipmentTrack.length,
-                                        itemBuilder: (context, i) {
-                                          return SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: JsonView.map(snapshot
-                                                .data!.trackingData!
-                                                .toJson()),
-                                          );
-                                        })
                                   ],
                                 ),
                               ),

@@ -525,6 +525,52 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                                                     label: Text("Email")),
                                               ],
                                             ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Email:",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blueGrey,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                  list[index].customerEmail!,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blue,
+                                                      fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Phone:",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blueGrey,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                  list[index].customerPhone!,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.blue,
+                                                      fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         )),
                                       ),
