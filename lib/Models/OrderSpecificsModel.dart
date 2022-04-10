@@ -128,7 +128,7 @@ class Data {
   int stateCode;
   String paymentStatus;
   String deliveryCode;
-  int total;
+  String total;
   int totalInr;
   int totalUsd;
   String netTotal;
@@ -203,7 +203,7 @@ class Data {
         stateCode: json["state_code"],
         paymentStatus: json["payment_status"],
         deliveryCode: json["delivery_code"],
-        total: json["total"],
+        total: json["total"].toString(),
         totalInr: json["total_inr"],
         totalUsd: json["total_usd"],
         netTotal: json["net_total"],
@@ -348,10 +348,10 @@ class AwbData {
 
   factory AwbData.fromJson(Map<String, dynamic> json) => AwbData(
         awb: json["awb"],
-        appliedWeight: json["applied_weight"],
-        chargedWeight: json["charged_weight"],
-        billedWeight: json["billed_weight"],
-        routingCode: json["routing_code"],
+        appliedWeight: json["applied_weight"].toString(),
+        chargedWeight: json["charged_weight"].toString(),
+        billedWeight: json["billed_weight"].toString(),
+        routingCode: json["routing_code"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
