@@ -25,6 +25,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   late Future<OrderSpecifics> orderDetails;
 
   late Future<MapTrack> map;
+  late Future<MapTrack> map2;
   Future<MapTrack> getLatLong(
       String billingCity, String billingStateName) async {
     var uri = Uri(
@@ -245,26 +246,50 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     ),
                                   ),
                                   FutureBuilder(
-                                      future: map,
+                                      future: Future.wait([
+                                        getLatLong(order.data!.data.billingCity,
+                                            order.data!.data.billingStateId),
+                                        getLatLong(
+                                            order.data!.data.customerCity,
+                                            order.data!.data.customerState),
+                                      ]),
                                       builder: (BuildContext context,
-                                          AsyncSnapshot<MapTrack> snapshot) {
+                                          AsyncSnapshot<List<MapTrack>>
+                                              snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return Center(
                                               child:
                                                   CircularProgressIndicator());
                                         } else {
-                                          if (snapshot.data!.data.isEmpty) {
+                                          if (snapshot.data!.isEmpty) {
+                                            print(
+                                                "location ${order.data!.data.billingCity + order.data!.data.billingStateId}   asdasd location ${order.data!.data.customerCity + order.data!.data.customerState}");
                                             return mapWidgetForDetails(
-                                                28.645093312626376,
-                                                77.07422383707488);
+                                              latitude: snapshot
+                                                  .data![0].data[0].latitude,
+                                              longitude: snapshot
+                                                  .data![0].data[0].longitude,
+                                              latitude2: snapshot
+                                                  .data![1].data[0].latitude,
+                                              longitude2: snapshot
+                                                  .data![1].data[0].longitude,
+                                            );
                                           } else {
                                             print(
-                                                "${snapshot.data!.data[0].latitude}");
+                                                "location ${order.data!.data.billingCity + order.data!.data.billingPincode}   asdasd location ${order.data!.data.customerAddress + order.data!.data.customerPincode}");
+                                            print(
+                                                "${snapshot.data![0].data[0].latitude}");
                                             return mapWidgetForDetails(
-                                                snapshot.data!.data[0].latitude,
-                                                snapshot
-                                                    .data!.data[0].longitude);
+                                              latitude: snapshot
+                                                  .data![0].data[0].latitude,
+                                              longitude: snapshot
+                                                  .data![0].data[0].longitude,
+                                              latitude2: snapshot
+                                                  .data![1].data[0].latitude,
+                                              longitude2: snapshot
+                                                  .data![1].data[0].longitude,
+                                            );
                                           }
                                         }
 
@@ -286,7 +311,11 @@ class _OrderDetailsState extends State<OrderDetails> {
             }));
   }
 
-  Container mapWidgetForDetails(double latitude, double longitude) {
+  Container mapWidgetForDetails(
+      {double latitude = 28.645093312626376,
+      double longitude = 77.07422383707488,
+      double latitude2 = 27.645093312626376,
+      double longitude2 = 76.07422383707488}) {
     return Container(
       height: 600,
       width: 200,
@@ -294,7 +323,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         padding: const EdgeInsets.all(15.0),
         child: FlutterMap(
           options: MapOptions(
-            center: LatLng(latitude, longitude),
+            center: LatLng(latitude2, longitude2),
             zoom: 4.0,
           ),
           layers: [
@@ -306,22 +335,29 @@ class _OrderDetailsState extends State<OrderDetails> {
               Marker(
                   width: 80.0,
                   // height: 80.0,
-                  point: LatLng(latitude, longitude),
+                  point: LatLng(28.645093312626376, 77.07422383707488),
                   builder: (context) {
                     return Container(
                       child: GestureDetector(
-                        onTap: (() {
-                          // mapOneTapped = true;
-                          // setState(() {});
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute<void>(
-                          //     builder: (BuildContext context) =>
-                          //         trackDetails(
-                          //             dataTrack: widget.trackingData),
-                          //   ),
-                          // );
-                        }),
+                        onTap: (() {}),
+                        child: const Icon(
+                          Icons.person,
+                          size: 20,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  }
+                  // Icon(Icons.room_rounded),
+                  ),
+              Marker(
+                  width: 80.0,
+                  // height: 80.0,
+                  point: LatLng(latitude2, longitude2),
+                  builder: (context) {
+                    return Container(
+                      child: GestureDetector(
+                        onTap: (() {}),
                         child: const Icon(
                           Icons.person,
                           size: 20,
