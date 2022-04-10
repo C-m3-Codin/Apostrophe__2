@@ -7,6 +7,7 @@ import 'package:apostrophe/Models/allOrderModel.dart';
 import 'package:apostrophe/OrderDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutableF
 class ShowAllOrders extends StatefulWidget {
@@ -479,45 +480,49 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Text(
-                                                  "Email:",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blueGrey,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  list[index].customerEmail!,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blue,
-                                                      fontSize: 15),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Phone:",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blueGrey,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  list[index].customerPhone!,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blue,
-                                                      fontSize: 15),
-                                                ),
+                                                TextButton.icon(
+                                                    onPressed: () {
+                                                      list[index].customerPhone ==
+                                                              null
+                                                          ? launch(
+                                                              "tel://21213123123")
+                                                          : launch(
+                                                              "tel:${list[index].customerName}");
+                                                    },
+                                                    icon: Icon(Icons.call),
+                                                    label: Text("Call")),
+                                                TextButton.icon(
+                                                    onPressed: () {
+                                                      String?
+                                                          encodeQueryParameters(
+                                                              Map<String,
+                                                                      String>
+                                                                  params) {
+                                                        return params.entries
+                                                            .map((e) =>
+                                                                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                                            .join('&');
+                                                      }
+
+                                                      final Uri emailLaunchUri =
+                                                          Uri(
+                                                              scheme: 'mailto',
+                                                              path: list[index]
+                                                                  .customerEmail,
+                                                              query:
+                                                                  encodeQueryParameters(
+                                                                <String,
+                                                                    String>{
+                                                                  'subject':
+                                                                      'Regarding the order Number ${list[index].id}'
+                                                                },
+                                                              ));
+
+                                                      launch(emailLaunchUri
+                                                          .toString());
+                                                    },
+                                                    icon: Icon(Icons.mail),
+                                                    label: Text("Email")),
                                               ],
                                             ),
                                           ],
