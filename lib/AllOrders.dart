@@ -80,7 +80,8 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
         Uri.parse(
             'https://apiv2.shiprocket.in/v1/external/orders?per_page=40&page=${page}'),
         headers: headers);
-
+    print(
+        "urlgettinghere https://apiv2.shiprocket.in/v1/external/orders?per_page=40&page=${page}");
     if (response.statusCode == 200) {
       // print(response.body.toString());
       Orders temp = Orders.fromJson(json.decode(response.body.toString()));

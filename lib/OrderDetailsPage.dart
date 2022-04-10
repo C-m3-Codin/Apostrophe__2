@@ -9,7 +9,7 @@ import 'package:apostrophe/Models/allOrderModel.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
 
 // TODO:
 // add more details for order
@@ -277,12 +277,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                   ),
                                                   ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (BuildContext
-                                                                        context) =>
-                                                                    WeviewPage()));
+                                                        // Navigator.push(
+                                                        //     context,
+                                                        //     MaterialPageRoute(
+                                                        //         builder: (BuildContext
+                                                        //                 context) =>
+                                                        //             WeviewPage()));
                                                       },
                                                       child: Icon(Icons
                                                           .track_changes_outlined))
