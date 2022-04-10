@@ -358,47 +358,45 @@ class _TrackState extends State<TrackPage> {
           // With AWB
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Card(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      tracking_heading("Track with AWB"),
-                      Row(
-                        children: [
-                          Flexible(
-                            flex: 6,
-                            child: Container(
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    tracking_heading("Track with AWB"),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 6,
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                                controller: searchQueryAWB,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Enter AWB number',
+                                )),
+                          ),
+                        ),
+                        Flexible(
+                          child: Container(
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(10),
-                              child: TextField(
-                                  controller: searchQueryAWB,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Enter AWB number',
-                                  )),
-                            ),
-                          ),
-                          Flexible(
-                            child: Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(10),
-                                child: IconButton(
-                                    onPressed: () {
-                                      trackapi = getTrackAWB("277553044205");
-                                      // getTrackAWB(searchQueryAWB.text);
-                                      searched = true;
-                                      setState(() {});
-                                    },
-                                    icon: const Icon(Icons.search))),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                              child: IconButton(
+                                  onPressed: () {
+                                    trackapi = getTrackAWB("277553044205");
+                                    // getTrackAWB(searchQueryAWB.text);
+                                    searched = true;
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(Icons.search))),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
@@ -406,47 +404,45 @@ class _TrackState extends State<TrackPage> {
           // with shipment
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Card(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      tracking_heading("Track with shipment number"),
-                      Row(
-                        children: [
-                          Flexible(
-                            flex: 6,
-                            child: Container(
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    tracking_heading("Track with shipment number"),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 6,
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                                controller: searchQuerySHIP,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Enter shipment  number',
+                                )),
+                          ),
+                        ),
+                        Flexible(
+                          child: Container(
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(10),
-                              child: TextField(
-                                  controller: searchQuerySHIP,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Enter shipment  number',
-                                  )),
-                            ),
-                          ),
-                          Flexible(
-                            child: Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(10),
-                                child: IconButton(
-                                    onPressed: () {
-                                      trackapi =
-                                          getTrackSHIP(searchQuerySHIP.text);
-                                      searched = true;
-                                      setState(() {});
-                                    },
-                                    icon: const Icon(Icons.search))),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                              child: IconButton(
+                                  onPressed: () {
+                                    trackapi =
+                                        getTrackSHIP(searchQuerySHIP.text);
+                                    searched = true;
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(Icons.search))),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -454,77 +450,75 @@ class _TrackState extends State<TrackPage> {
           // with order number
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Card(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      tracking_heading("Track with Order ID & Channel ID"),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Flexible(
-                                flex: 6,
-                                child: Container(
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    tracking_heading("Track with Order ID & Channel ID"),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 6,
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(10),
+                                child: TextField(
+                                    controller: searchQueryORDER,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Enter Order number',
+                                    )),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.all(10),
-                                  child: TextField(
-                                      controller: searchQueryORDER,
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Enter Order number',
-                                      )),
-                                ),
+                                  child: const Text(" ")),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 6,
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(10),
+                                child: TextField(
+                                    controller: searchQueryCHANNELID,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Enter channel_id number',
+                                    )),
                               ),
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(10),
-                                    child: const Text(" ")),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Flexible(
-                                flex: 6,
-                                child: Container(
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.all(10),
-                                  child: TextField(
-                                      controller: searchQueryCHANNELID,
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Enter channel_id number',
-                                      )),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(10),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          trackapi = getTrackORDER(
-                                              searchQueryCHANNELID.text,
-                                              searchQueryORDER.text);
-                                          searched = true;
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(Icons.search))),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        trackapi = getTrackORDER(
+                                            searchQueryCHANNELID.text,
+                                            searchQueryORDER.text);
+                                        searched = true;
+                                        setState(() {});
+                                      },
+                                      icon: const Icon(Icons.search))),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

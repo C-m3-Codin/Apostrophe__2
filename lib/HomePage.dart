@@ -91,52 +91,49 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Card(
-              elevation: 5.0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "HELLO!",
-                        style: TextStyle(
-                            fontSize: 50, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 50),
-                      Text(
-                        (widget.profile.firstName! +
-                                " " +
-                                widget.profile.lastName!)
-                            .toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue),
-                      )
-                    ]),
-              ),
+        body: Flex(
+      direction: Axis.vertical,
+      children: [
+        Expanded(
+          child: Card(
+            elevation: 5.0,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "HELLO!",
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 50),
+                    Text(
+                      (widget.profile.firstName! +
+                              " " +
+                              widget.profile.lastName!)
+                          .toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue),
+                    )
+                  ]),
             ),
           ),
-          Container(
-              child: Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                showdetails("Email", widget.profile.email),
-                showdetails("Company", widget.profile.companyId.toString()),
-                showdetails(
-                    "Created", (widget.profile.createdAt!).split(" ")[0]),
-              ],
-            ),
-          )),
-        ],
-      ),
-    );
+        ),
+        Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              showdetails("Email", widget.profile.email),
+              showdetails("Company", widget.profile.companyId.toString()),
+              showdetails("Created", (widget.profile.createdAt!).split(" ")[0]),
+            ],
+          ),
+        ),
+      ],
+    ));
   }
 }
 

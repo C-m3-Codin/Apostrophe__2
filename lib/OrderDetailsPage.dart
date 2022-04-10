@@ -116,6 +116,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           runAlignment: WrapAlignment.center,
                                           children: [
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Customer Name: "),
                                                 Text(order
@@ -124,6 +127,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Customer Email: "),
                                                 Text(order
@@ -132,6 +138,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Customer Phone: "),
                                                 Text(order
@@ -140,6 +149,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text(
                                                     "Order Created At: "),
@@ -148,25 +160,43 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Return Allowed: "),
                                                 Text(order.data!.data
                                                             .allowReturn ==
-                                                        1
+                                                        "1"
                                                     ? "Yes"
                                                     : "No"),
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 const Text(
-                                                    "Order Pickup Location: "),
-                                                Text(order
-                                                    .data!.data.pickupLocation
-                                                    .toString()),
+                                                  "Order Pickup Location: ",
+                                                ),
+                                                Flexible(
+                                                  child: Text(
+                                                    order.data!.data
+                                                        .pickupLocation
+                                                        .toString(),
+                                                    textAlign: TextAlign.end,
+                                                    overflow: TextOverflow.fade,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text(
                                                     "Order Shipping title: "),
@@ -177,6 +207,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Order Total: "),
                                                 Text(order.data!.data.total
@@ -184,6 +217,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ],
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Order Tax: "),
                                                 Text(order.data!.data.tax

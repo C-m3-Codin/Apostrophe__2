@@ -86,7 +86,9 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
       Orders temp = Orders.fromJson(json.decode(response.body.toString()));
       orders.data!.addAll(temp.data!);
       orders.meta = temp.meta;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
       return true;
     } else {
       print(response.body.toString());
@@ -170,7 +172,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                 child: Card(
                     child: ExpansionTile(
               title: Row(
-                children: [
+                children: const [
                   Text(
                     " Filter Options",
                     style:
@@ -220,8 +222,9 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Center(child: CircularProgressIndicator());
-                          } else
+                          } else {
                             return Text("Order Count ${orders.data!.length}");
+                          }
                         })),
 
                     // ElevatedButton(onPressed: null, child: )
@@ -525,52 +528,52 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
                                                     label: Text("Email")),
                                               ],
                                             ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Email:",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blueGrey,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  list[index].customerEmail!,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blue,
-                                                      fontSize: 15),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Phone:",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blueGrey,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  list[index].customerPhone!,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.blue,
-                                                      fontSize: 15),
-                                                ),
-                                              ],
-                                            ),
+                                            // Row(
+                                            //   mainAxisAlignment:
+                                            //       MainAxisAlignment
+                                            //           .spaceBetween,
+                                            //   children: [
+                                            //     Text(
+                                            //       "Email:",
+                                            //       style: TextStyle(
+                                            //           fontWeight:
+                                            //               FontWeight.w500,
+                                            //           color: Colors.blueGrey,
+                                            //           fontSize: 15),
+                                            //     ),
+                                            //     Text(
+                                            //       list[index].customerEmail!,
+                                            //       style: TextStyle(
+                                            //           fontWeight:
+                                            //               FontWeight.w500,
+                                            //           color: Colors.blue,
+                                            //           fontSize: 15),
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            // Row(
+                                            //   mainAxisAlignment:
+                                            //       MainAxisAlignment
+                                            //           .spaceBetween,
+                                            //   children: [
+                                            //     Text(
+                                            //       "Phone:",
+                                            //       style: TextStyle(
+                                            //           fontWeight:
+                                            //               FontWeight.w500,
+                                            //           color: Colors.blueGrey,
+                                            //           fontSize: 15),
+                                            //     ),
+                                            //     Text(
+                                            //       list[index].customerPhone!,
+                                            //       style: TextStyle(
+                                            //           fontWeight:
+                                            //               FontWeight.w500,
+                                            //           color: Colors.blue,
+                                            //           fontSize: 15),
+                                            //     ),
+                                            //   ],
+                                            // ),
                                           ],
                                         )),
                                       ),
