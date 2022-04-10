@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:apostrophe/AllOrders.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/TracksPage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   final Profile profile;
@@ -105,20 +108,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "HELLO!",
-                      style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                      "Hello!",
+                      style: GoogleFonts.alegreyaSansSc(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 30),
                     Text(
                       (widget.profile.firstName! +
-                              " " +
-                              widget.profile.lastName!)
-                          .toUpperCase(),
-                      style: TextStyle(
+                          " " +
+                          widget.profile.lastName!),
+                      style: GoogleFonts.alegreyaSansSc(
                           fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).primaryColor),
                     )
                   ]),
             ),
@@ -128,9 +132,11 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              showdetails("Email", widget.profile.email),
-              showdetails("Company", widget.profile.companyId.toString()),
-              showdetails("Created", (widget.profile.createdAt!).split(" ")[0]),
+              showdetails("Email", widget.profile.email, context),
+              showdetails(
+                  "Company", widget.profile.companyId.toString(), context),
+              showdetails("Created", (widget.profile.createdAt!).split(" ")[0],
+                  context),
             ],
           ),
         ),
@@ -139,13 +145,13 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-showdetails(String s, String? email) {
+showdetails(String s, String? email, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             s + " " + ":" + " ",
@@ -153,7 +159,9 @@ showdetails(String s, String? email) {
           ),
           Text(
             email!,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor),
           )
         ],
       ),
