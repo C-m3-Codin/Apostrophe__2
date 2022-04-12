@@ -172,11 +172,15 @@ class _TrackState extends State<TrackPage> {
                     };
                     return Container(
                       child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Card(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: shipmentStatus(shipmenttrack, context),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   children: [
                                     SizedBox(
@@ -186,51 +190,55 @@ class _TrackState extends State<TrackPage> {
                                         elevation: 2,
                                         child: Column(
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Card(
-                                                  elevation: 2,
-                                                  child: TextButton.icon(
-                                                      onPressed: () {
-                                                        Navigator.push(
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Card(
+                                                    elevation: 2,
+                                                    child: TextButton.icon(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (BuildContext
+                                                                          context) =>
+                                                                      WeviewPage(
+                                                                          url: (result?.trackUrl)
+                                                                              .toString())));
+                                                        },
+                                                        icon: Icon(Icons.web),
+                                                        label: Text(
+                                                            "Track in Browser")),
+                                                  ),
+                                                  Card(
+                                                    elevation: 2,
+                                                    child: TextButton.icon(
+                                                        onPressed: () {
+                                                          Navigator.push(
                                                             context,
-                                                            MaterialPageRoute(
-                                                                builder: (BuildContext
-                                                                        context) =>
-                                                                    WeviewPage(
-                                                                        url: (result?.trackUrl)
-                                                                            .toString())));
-                                                      },
-                                                      icon: Icon(Icons.web),
-                                                      label: Text(
-                                                          "Track in Browser")),
-                                                ),
-                                                Card(
-                                                  elevation: 2,
-                                                  child: TextButton.icon(
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute<
-                                                              void>(
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                MapDisplay(
-                                                                    trackingData:
-                                                                        snapshot
-                                                                            .data!
-                                                                            .trackingData!),
-                                                          ),
-                                                        );
-                                                      },
-                                                      icon: Icon(Icons
-                                                          .location_on_rounded),
-                                                      label:
-                                                          Text("Track in Map")),
-                                                ),
-                                              ],
+                                                            MaterialPageRoute<
+                                                                void>(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  MapDisplay(
+                                                                      trackingData: snapshot
+                                                                          .data!
+                                                                          .trackingData!),
+                                                            ),
+                                                          );
+                                                        },
+                                                        icon: Icon(Icons
+                                                            .location_on_rounded),
+                                                        label: Text(
+                                                            "Track in Map")),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                             Entries(
                                                 context,
@@ -294,11 +302,6 @@ class _TrackState extends State<TrackPage> {
                                                     .toString()),
                                             Entries(
                                                 context,
-                                                "Status",
-                                                (shipmenttrack?.currentStatus)
-                                                    .toString()),
-                                            Entries(
-                                                context,
                                                 "Pickup Date",
                                                 (shipmenttrack?.pickupDate)
                                                     .toString()),
@@ -329,8 +332,8 @@ class _TrackState extends State<TrackPage> {
                                   ],
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -339,6 +342,24 @@ class _TrackState extends State<TrackPage> {
               },
             ),
     );
+  }
+
+  Container shipmentStatus(ShipmentTrack? shipmenttrack, BuildContext context) {
+    String status = (shipmenttrack?.currentStatus).toString();
+    return Container(
+        child: Column(
+      children: [
+        Text("Status",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+        Text(
+          status,
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.height * 0.05,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ));
   }
 
   Padding Entries(BuildContext context, String title, String result) {
