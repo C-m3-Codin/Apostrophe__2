@@ -2,15 +2,15 @@
 
 import 'dart:convert';
 
-import 'package:apostrophe/IntroPage.dart';
-import 'package:apostrophe/LoginPage.dart';
+import 'package:apostrophe/Pages/IntroPage.dart';
+import 'package:apostrophe/Pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'HomePage.dart';
+import 'package:apostrophe/Pages/HomePage.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

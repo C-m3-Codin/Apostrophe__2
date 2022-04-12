@@ -2,9 +2,9 @@
 
 import 'dart:ui';
 
-import 'package:apostrophe/AllOrders.dart';
+import 'package:apostrophe/Pages/AllOrders.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
-import 'package:apostrophe/TracksPage.dart';
+import 'package:apostrophe/Pages/TracksPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

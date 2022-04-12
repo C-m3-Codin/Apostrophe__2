@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:apostrophe/Constants/Constants.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/Models/allOrderModel.dart';
-import 'package:apostrophe/OrderDetailsPage.dart';
+import 'package:apostrophe/Pages/OrderDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
