@@ -181,7 +181,9 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
-        trackingUrl: json["others"]["order_status_url"],
+        trackingUrl: json["others"]["order_status_url"] == null
+            ? "N/A"
+            : json["others"]["order_status_url"],
         channelId: json["channel_id"],
         channelName: json["channel_name"],
         baseChannelCode: json["base_channel_code"],

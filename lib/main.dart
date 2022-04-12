@@ -10,7 +10,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:apostrophe/Pages/HomePage.dart';
+// import 'HomePage.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

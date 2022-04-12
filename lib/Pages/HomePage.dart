@@ -2,8 +2,11 @@
 
 import 'dart:ui';
 
-import 'package:apostrophe/Pages/AllOrders.dart';
+// import 'package:apostrophe/AllOrders.dart';
+import 'package:apostrophe/Models/CoureirModel.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
+import 'package:apostrophe/Pages/AllOrders.dart';
+import 'package:apostrophe/Pages/Couriers.dart';
 import 'package:apostrophe/Pages/TracksPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -137,6 +140,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   "Company", widget.profile.companyId.toString(), context),
               showdetails("Created", (widget.profile.createdAt!).split(" ")[0],
                   context),
+              ListTile(
+                title: Text("Courier Page"),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return CouriersPage(
+                      token: widget.profile.token.toString(),
+                    );
+                  }));
+                },
+              )
             ],
           ),
         ),
