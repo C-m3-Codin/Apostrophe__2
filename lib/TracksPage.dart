@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_json_view/flutter_json_view.dart';
 import 'package:http/http.dart' as http;
 
+import 'WebView.dart';
+
 // flutter pub add flutter_json_view
 // ignore: must_be_immutable
 class TrackPage extends StatefulWidget {
@@ -184,23 +186,77 @@ class _TrackState extends State<TrackPage> {
                                         elevation: 2,
                                         child: Column(
                                           children: [
-                                            TextButton.icon(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute<void>(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          MapDisplay(
-                                                              trackingData: snapshot
-                                                                  .data!
-                                                                  .trackingData!),
-                                                    ),
-                                                  );
-                                                },
-                                                icon: Icon(
-                                                    Icons.location_on_rounded),
-                                                label: Text("Track in Map")),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Card(
+                                                  elevation: 2,
+                                                  child: TextButton.icon(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    WeviewPage(
+                                                                        url: (result?.trackUrl)
+                                                                            .toString())));
+                                                      },
+                                                      icon: Icon(Icons.web),
+                                                      label: Text(
+                                                          "Track in Browser")),
+                                                ),
+                                                Card(
+                                                  elevation: 2,
+                                                  child: TextButton.icon(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute<
+                                                              void>(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                MapDisplay(
+                                                                    trackingData:
+                                                                        snapshot
+                                                                            .data!
+                                                                            .trackingData!),
+                                                          ),
+                                                        );
+                                                      },
+                                                      icon: Icon(Icons
+                                                          .location_on_rounded),
+                                                      label:
+                                                          Text("Track in Map")),
+                                                ),
+                                              ],
+                                            ),
+                                            Entries(
+                                                context,
+                                                "Consignee Name",
+                                                (shipmenttrack?.consigneeName)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Packages",
+                                                (shipmenttrack?.packages)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Weight",
+                                                (shipmenttrack?.weight)
+                                                    .toString()),
+                                            Entries(
+                                                context,
+                                                "Agent Details",
+                                                ((shipmenttrack
+                                                            ?.courierAgentDetails) ==
+                                                        null
+                                                    ? "Not Available"
+                                                    : (shipmenttrack
+                                                            ?.courierAgentDetails)
+                                                        .toString())),
                                             Entries(
                                                 context,
                                                 "Track Status",
@@ -266,45 +322,10 @@ class _TrackState extends State<TrackPage> {
                                                 "Delivered To",
                                                 (shipmenttrack?.deliveredTo)
                                                     .toString()),
-                                            Entries(
-                                                context,
-                                                "Weight",
-                                                (shipmenttrack?.weight)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Packages",
-                                                (shipmenttrack?.packages)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Consignee Name",
-                                                (shipmenttrack?.consigneeName)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Agent Details",
-                                                (shipmenttrack
-                                                        ?.courierAgentDetails)
-                                                    .toString()),
-                                            Entries(context, "Track",
-                                                (result?.trackUrl).toString()),
                                           ],
                                         ),
                                       ),
                                     ),
-                                    ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data!.trackingData!
-                                            .shipmentTrack.length,
-                                        itemBuilder: (context, i) {
-                                          return SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: JsonView.map(snapshot
-                                                .data!.trackingData!
-                                                .toJson()),
-                                          );
-                                        })
                                   ],
                                 ),
                               ),
@@ -340,7 +361,7 @@ class _TrackState extends State<TrackPage> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.40,
             child: Text(
-              result,
+              (result == "null") ? "Not Available" : result,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
