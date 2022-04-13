@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:apostrophe/Pages/products.dart';
+import 'package:http/http.dart' as http;
 // import 'package:apostrophe/AllOrders.dart';
 import 'package:apostrophe/Models/CoureirModel.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
@@ -96,6 +98,34 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late Future<String> balance;
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    balance = getWalletAPi();
+  }
+
+  Future<String> getWalletAPi() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${widget.profile.token}'
+    };
+
+    var response = await http.get(
+        Uri.parse(
+            'https://apiv2.shiprocket.in/v1/external/account/details/wallet-balance'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body.toString())["data"]["balance_amount"];
+    } else {
+      print("2121 not worked ${response.body}");
+      print(response.body.toString());
+      throw Exception('Failed to load album');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,12 +174,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: Text("Courier Page"),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return CouriersPage(
+                    return ProductPage(
                       token: widget.profile.token.toString(),
                     );
                   }));
                 },
-              )
+              ),
+              FutureBuilder(
+                  future: balance,
+                  builder: (_, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else {
+                      return showdetails("Wallet Balance : ",
+                          snapshot.data.toString(), context);
+                    }
+                  })
             ],
           ),
         ),

@@ -78,7 +78,7 @@ class _CouriersPageState extends State<CouriersPage> {
                         "https://shiprocket.co/" +
                             couriers.courierData[i - 1].image.logo,
                         errorBuilder: (_, Object exception, error) {
-                          return Text("asd");
+                          return Icon(Icons.person);
                         },
                         width: 50,
                       ),
