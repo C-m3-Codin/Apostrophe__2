@@ -93,30 +93,36 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             // Container(child: Text("prod")),
             // FilterOptions(context),
-            FutureBuilder(builder: (_, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return Container(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-                    // Container(
-                    height: MediaQuery.of(context).size.height - 100,
-                    child: product.data.length == 0
-                        ? Center(
-                            child: Text("No Data to show"),
-                          )
-                        : ListView.builder(
-                            controller: _scrollController,
-                            itemCount: product.data.length,
-                            itemBuilder: (_, i) {
-                              return Card(
-                                child: ListTile(
-                                  title: Text(product.data[i].name),
-                                ),
-                              );
-                            }));
-              }
-            }),
+            FutureBuilder(
+                future: loading,
+                builder: (_, AsyncSnapshot<bool> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return Container(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+                        // Container(
+                        height: MediaQuery.of(context).size.height - 100,
+                        child: product.data.length == 0
+                            ? Center(
+                                child: Text("No Data to show"),
+                              )
+                            : ListView.builder(
+                                controller: _scrollController,
+                                itemCount: product.data.length,
+                                itemBuilder: (_, i) {
+                                  return Card(
+                                    child: ListTile(
+                                      title: Text(product.data[i].name),
+                                      subtitle:
+                                          Text(product.data[i].categoryName),
+                                      trailing: Text(
+                                          " quantity:${product.data[i].quantity.toString()}"),
+                                    ),
+                                  );
+                                }));
+                  }
+                }),
           ],
         ),
       ),
