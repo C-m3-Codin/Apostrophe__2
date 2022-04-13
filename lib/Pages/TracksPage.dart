@@ -103,244 +103,250 @@ class _TrackState extends State<TrackPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Track Package"),
-      // ),
-      body: searched == false
-          ? SearchBar()
-          : FutureBuilder(
-              future: trackapi,
-              builder: (BuildContext context, AsyncSnapshot<Track> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  if (snapshot.hasError) {
-                    return const Center(
-                        child:
-                            Text('Error: No awb order found on that number'));
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBa  r(
+        //   title: Text("Track Package"),
+        // ),
+        body: searched == false
+            ? SearchBar()
+            : FutureBuilder(
+                future: trackapi,
+                builder: (BuildContext context, AsyncSnapshot<Track> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
                   } else {
-                    TrackingData? result = snapshot.data?.trackingData;
-                    ShipmentTrack? shipmenttrack = result?.shipmentTrack[0];
-                    Map<int, String> shipment = {
-                      1: "AWB Assigned",
-                      2: "Label Generated",
-                      3: "Pickup Scheduled/Generated",
-                      4: "Pickup Queued",
-                      5: "Manifest Generated",
-                      6: "Shipped",
-                      7: "Delivered",
-                      8: "Cancelled",
-                      9: "RTO Initiated",
-                      10: "RTO Delivered",
-                      11: "Pending",
-                      12: "Lost",
-                      13: "Pickup Error",
-                      14: "RTO Acknowledged",
-                      15: "Pickup Rescheduled",
-                      16: "Cancellation Requested",
-                      17: "Out For Delivery",
-                      18: "In Transit",
-                      19: "Out For Pickup",
-                      20: "Pickup Exception",
-                      21: "Undelivered",
-                      22: "Delayed",
-                      23: "Partial_Delivered",
-                      24: "Destroyed",
-                      25: "Damaged",
-                      26: "Fulfilled",
-                      38: "Reached at Destination",
-                      39: "Misrouted",
-                      40: "RTO NDR",
-                      41: "RTO OFD",
-                      42: "Picked Up",
-                      43: "Self Fulfilled",
-                      44: "DISPOSED_OFF",
-                      45: "CANCELLED_BEFORE_DISPATCHE",
-                      46: "DRTO_IN_TRANSIT",
-                      47: "QC Failed",
-                      48: "Reached Warehouse",
-                      49: "Custom Cleared",
-                      50: "In Flight",
-                      51: "Handover to Courier",
-                      52: "Shipment Booked",
-                      54: "In Transit Overseas",
-                      55: "Connection Aligned",
-                      56: "Reached Overseas Warehouse",
-                      57: "Custom Cleared Overseas",
-                      59: "Box Packing"
-                    };
-                    return Container(
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: shipmentStatus(shipmenttrack, context),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.90,
-                                      child: Card(
-                                        elevation: 2,
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Card(
-                                                    elevation: 2,
-                                                    child: TextButton.icon(
-                                                        onPressed: () {
-                                                          Navigator.push(
+                    if (snapshot.hasError) {
+                      return const Center(
+                          child:
+                              Text('Error: No awb order found on that number'));
+                    } else {
+                      TrackingData? result = snapshot.data?.trackingData;
+                      ShipmentTrack? shipmenttrack = result?.shipmentTrack[0];
+                      Map<int, String> shipment = {
+                        1: "AWB Assigned",
+                        2: "Label Generated",
+                        3: "Pickup Scheduled/Generated",
+                        4: "Pickup Queued",
+                        5: "Manifest Generated",
+                        6: "Shipped",
+                        7: "Delivered",
+                        8: "Cancelled",
+                        9: "RTO Initiated",
+                        10: "RTO Delivered",
+                        11: "Pending",
+                        12: "Lost",
+                        13: "Pickup Error",
+                        14: "RTO Acknowledged",
+                        15: "Pickup Rescheduled",
+                        16: "Cancellation Requested",
+                        17: "Out For Delivery",
+                        18: "In Transit",
+                        19: "Out For Pickup",
+                        20: "Pickup Exception",
+                        21: "Undelivered",
+                        22: "Delayed",
+                        23: "Partial_Delivered",
+                        24: "Destroyed",
+                        25: "Damaged",
+                        26: "Fulfilled",
+                        38: "Reached at Destination",
+                        39: "Misrouted",
+                        40: "RTO NDR",
+                        41: "RTO OFD",
+                        42: "Picked Up",
+                        43: "Self Fulfilled",
+                        44: "DISPOSED_OFF",
+                        45: "CANCELLED_BEFORE_DISPATCHE",
+                        46: "DRTO_IN_TRANSIT",
+                        47: "QC Failed",
+                        48: "Reached Warehouse",
+                        49: "Custom Cleared",
+                        50: "In Flight",
+                        51: "Handover to Courier",
+                        52: "Shipment Booked",
+                        54: "In Transit Overseas",
+                        55: "Connection Aligned",
+                        56: "Reached Overseas Warehouse",
+                        57: "Custom Cleared Overseas",
+                        59: "Box Packing"
+                      };
+                      return Container(
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: shipmentStatus(shipmenttrack, context),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.90,
+                                        child: Card(
+                                          elevation: 2,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Card(
+                                                      elevation: 2,
+                                                      child: TextButton.icon(
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (BuildContext
+                                                                            context) =>
+                                                                        WeviewPage(
+                                                                            url:
+                                                                                (result?.trackUrl).toString())));
+                                                          },
+                                                          icon: Icon(Icons.web),
+                                                          label: Text(
+                                                              "Track in Browser")),
+                                                    ),
+                                                    Card(
+                                                      elevation: 2,
+                                                      child: TextButton.icon(
+                                                          onPressed: () {
+                                                            Navigator.push(
                                                               context,
-                                                              MaterialPageRoute(
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      WeviewPage(
-                                                                          url: (result?.trackUrl)
-                                                                              .toString())));
-                                                        },
-                                                        icon: Icon(Icons.web),
-                                                        label: Text(
-                                                            "Track in Browser")),
-                                                  ),
-                                                  Card(
-                                                    elevation: 2,
-                                                    child: TextButton.icon(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute<
-                                                                void>(
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  MapDisplay(
-                                                                      trackingData: snapshot
-                                                                          .data!
-                                                                          .trackingData!),
-                                                            ),
-                                                          );
-                                                        },
-                                                        icon: Icon(Icons
-                                                            .location_on_rounded),
-                                                        label: Text(
-                                                            "Track in Map")),
-                                                  ),
-                                                ],
+                                                              MaterialPageRoute<
+                                                                  void>(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    MapDisplay(
+                                                                        trackingData: snapshot
+                                                                            .data!
+                                                                            .trackingData!),
+                                                              ),
+                                                            );
+                                                          },
+                                                          icon: Icon(Icons
+                                                              .location_on_rounded),
+                                                          label: Text(
+                                                              "Track in Map")),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            Entries(
-                                                context,
-                                                "Consignee Name",
-                                                (shipmenttrack?.consigneeName)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Packages",
-                                                (shipmenttrack?.packages)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Weight",
-                                                (shipmenttrack?.weight)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Agent Details",
-                                                ((shipmenttrack
-                                                            ?.courierAgentDetails) ==
-                                                        null
-                                                    ? "Not Available"
-                                                    : (shipmenttrack
-                                                            ?.courierAgentDetails)
-                                                        .toString())),
-                                            Entries(
-                                                context,
-                                                "Track Status",
-                                                (result?.trackStatus)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Shipment Status",
-                                                (result?.shipmentStatus)
-                                                    .toString()),
-                                            Entries(context, "ETD",
-                                                (result?.etd).toString()),
-                                            Entries(context, "Shipment ID",
-                                                (shipmenttrack?.id).toString()),
-                                            Entries(
-                                                context,
-                                                "AWB number",
-                                                (shipmenttrack?.awbCode)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Company ID",
-                                                (shipmenttrack
-                                                        ?.courierCompanyId)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Shipment ID",
-                                                (shipmenttrack?.shipmentId)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Order ID",
-                                                (shipmenttrack?.orderId)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Pickup Date",
-                                                (shipmenttrack?.pickupDate)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Delivered Date",
-                                                (shipmenttrack?.deliveredDate)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Origin",
-                                                (shipmenttrack?.origin)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Destination",
-                                                (shipmenttrack?.destination)
-                                                    .toString()),
-                                            Entries(
-                                                context,
-                                                "Delivered To",
-                                                (shipmenttrack?.deliveredTo)
-                                                    .toString()),
-                                          ],
+                                              Entries(
+                                                  context,
+                                                  "Consignee Name",
+                                                  (shipmenttrack?.consigneeName)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Packages",
+                                                  (shipmenttrack?.packages)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Weight",
+                                                  (shipmenttrack?.weight)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Agent Details",
+                                                  ((shipmenttrack
+                                                              ?.courierAgentDetails) ==
+                                                          null
+                                                      ? "Not Available"
+                                                      : (shipmenttrack
+                                                              ?.courierAgentDetails)
+                                                          .toString())),
+                                              Entries(
+                                                  context,
+                                                  "Track Status",
+                                                  (result?.trackStatus)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Shipment Status",
+                                                  (result?.shipmentStatus)
+                                                      .toString()),
+                                              Entries(context, "ETD",
+                                                  (result?.etd).toString()),
+                                              Entries(
+                                                  context,
+                                                  "Shipment ID",
+                                                  (shipmenttrack?.id)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "AWB number",
+                                                  (shipmenttrack?.awbCode)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Company ID",
+                                                  (shipmenttrack
+                                                          ?.courierCompanyId)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Shipment ID",
+                                                  (shipmenttrack?.shipmentId)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Order ID",
+                                                  (shipmenttrack?.orderId)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Pickup Date",
+                                                  (shipmenttrack?.pickupDate)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Delivered Date",
+                                                  (shipmenttrack?.deliveredDate)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Origin",
+                                                  (shipmenttrack?.origin)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Destination",
+                                                  (shipmenttrack?.destination)
+                                                      .toString()),
+                                              Entries(
+                                                  context,
+                                                  "Delivered To",
+                                                  (shipmenttrack?.deliveredTo)
+                                                      .toString()),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
-                }
-              },
-            ),
+                },
+              ),
+      ),
     );
   }
 

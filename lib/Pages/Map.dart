@@ -34,25 +34,15 @@ class _MapDisplayState extends State<MapDisplay> {
   List<Map<String, String>> cordinates = [];
 
   late Future<MapTrack> map;
-  Future<MapTrack> getLatLong() async {
+  Future<MapTrack> getLatLong(String placeName) async {
     var uri = Uri(
         scheme: 'http',
         host: 'api.positionstack.com',
         path: "/v1/forward",
         queryParameters: {
           "access_key": "e1c01ad604d0cc6d25c6680feb61adfb",
-          "query": "Shahjahanpur"
+          "query": placeName
         });
-    var request = http.Request(
-        'GET',
-        Uri(
-            scheme: 'http',
-            host: 'api.positionstack.com',
-            path: "/v1/forward",
-            queryParameters: {
-              "access_key": "e1c01ad604d0cc6d25c6680feb61adfb",
-              "query": widget.trackingData.shipmentTrack[0].deliveredTo
-            }));
 
     // request.headers.addAll(headers);
 
@@ -81,7 +71,6 @@ class _MapDisplayState extends State<MapDisplay> {
     });
 
 // getLatLong
-    map = getLatLong();
 
 // GetlatLong
   }
@@ -91,8 +80,13 @@ class _MapDisplayState extends State<MapDisplay> {
     return Scaffold(
       appBar: AppBar(title: const Text("Order Geolocation")),
       body: FutureBuilder(
-          future: map,
-          builder: (BuildContext context, AsyncSnapshot<MapTrack> snapshot) {
+          future: Future.wait([
+            getLatLong(widget.trackingData.shipmentTrack[0].origin.toString()),
+            getLatLong(
+                widget.trackingData.shipmentTrack[0].destination.toString()),
+          ]),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<MapTrack>> snapshot) {
             if (snapshot.hasData) {
               return FlutterMap(
                 options: MapOptions(
@@ -109,7 +103,8 @@ class _MapDisplayState extends State<MapDisplay> {
                     Marker(
                         width: 80.0,
                         height: 80.0,
-                        point: LatLng(33.76750416182363, 74.09102457035667),
+                        point: LatLng(snapshot.data![1].data[0].latitude,
+                            snapshot.data![1].data[0].longitude),
                         builder: (context) {
                           return Container(
                             child: GestureDetector(
@@ -136,8 +131,8 @@ class _MapDisplayState extends State<MapDisplay> {
                     Marker(
                         width: 80.0,
                         height: 80.0,
-                        point: LatLng(snapshot.data!.data[0].latitude,
-                            snapshot.data!.data[0].longitude),
+                        point: LatLng(snapshot.data![0].data[0].latitude,
+                            snapshot.data![0].data[0].longitude),
                         builder: (context) {
                           return Container(
                             child: GestureDetector(

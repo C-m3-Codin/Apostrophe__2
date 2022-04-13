@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       print(profile.firstName);
       Navigator.push(
         context,
-        MaterialPageRoute<void>(
+        MaterialPageRoute(
           // builder: (BuildContext context) => TestPage(profile: profile),
           // builder: (BuildContext context) => HomePage(profile: profile),
           builder: (BuildContext context) => NewHome(profile: profile),
