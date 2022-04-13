@@ -7,6 +7,7 @@ import 'dart:convert';
 // import 'package:apostrophe/HomePage.dart';
 import 'package:apostrophe/Models/UserAuthModel.dart';
 import 'package:apostrophe/Pages/HomePage.dart';
+import 'package:apostrophe/Pages/NewHome.dart';
 import 'package:apostrophe/TestPage.dart';
 import 'package:apostrophe/Pages/TracksPage.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute<void>(
           // builder: (BuildContext context) => TestPage(profile: profile),
-          builder: (BuildContext context) => HomePage(profile: profile),
+          // builder: (BuildContext context) => HomePage(profile: profile),
+          builder: (BuildContext context) => NewHome(profile: profile),
           // builder: (BuildContext context) => TrackPage(
           //   profile: profile,
           //   awb: "277553044205",

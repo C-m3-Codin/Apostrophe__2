@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:apostrophe/Pages/IntroPage.dart';
 import 'package:apostrophe/Pages/LoginPage.dart';
+import 'package:apostrophe/Pages/NewHome.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:introduction_screen/introduction_screen.dart';
