@@ -129,72 +129,76 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Profile"),
+        ),
         body: Flex(
-      direction: Axis.vertical,
-      children: [
-        Expanded(
-          child: Card(
-            elevation: 5.0,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Hello!",
-                      style: GoogleFonts.alegreyaSansSc(
-                        fontSize: 50,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      (widget.profile.firstName! +
-                          " " +
-                          widget.profile.lastName!),
-                      style: GoogleFonts.alegreyaSansSc(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).primaryColor),
-                    )
-                  ]),
-            ),
-          ),
-        ),
-        Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              showdetails("Email", widget.profile.email, context),
-              showdetails(
-                  "Company", widget.profile.companyId.toString(), context),
-              showdetails("Created", (widget.profile.createdAt!).split(" ")[0],
-                  context),
-              ListTile(
-                title: Text("Courier Page"),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return ProductPage(
-                      token: widget.profile.token.toString(),
-                    );
-                  }));
-                },
+          direction: Axis.vertical,
+          children: [
+            Expanded(
+              child: Card(
+                elevation: 5.0,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Hello!",
+                          style: GoogleFonts.alegreyaSansSc(
+                            fontSize: 50,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        Text(
+                          (widget.profile.firstName! +
+                              " " +
+                              widget.profile.lastName!),
+                          style: GoogleFonts.alegreyaSansSc(
+                              fontSize: 40,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).primaryColor),
+                        )
+                      ]),
+                ),
               ),
-              FutureBuilder(
-                  future: balance,
-                  builder: (_, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else {
-                      return showdetails("Wallet Balance : ",
-                          snapshot.data.toString(), context);
-                    }
-                  })
-            ],
-          ),
-        ),
-      ],
-    ));
+            ),
+            Card(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  showdetails("Email", widget.profile.email, context),
+                  showdetails(
+                      "Company", widget.profile.companyId.toString(), context),
+                  showdetails("Created",
+                      (widget.profile.createdAt!).split(" ")[0], context),
+                  ListTile(
+                    title: Text("Courier Page"),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return ProductPage(
+                          token: widget.profile.token.toString(),
+                        );
+                      }));
+                    },
+                  ),
+                  FutureBuilder(
+                      future: balance,
+                      builder: (_, AsyncSnapshot<String> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return showdetails("Wallet Balance : ",
+                              snapshot.data.toString(), context);
+                        }
+                      })
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
 

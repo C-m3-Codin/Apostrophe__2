@@ -1,6 +1,4 @@
 import 'package:apostrophe/Models/UserAuthModel.dart';
-import 'package:apostrophe/Models/allOrderModel.dart';
-import 'package:apostrophe/Models/track.dart';
 import 'package:apostrophe/Pages/AllOrders.dart';
 import 'package:apostrophe/Pages/Couriers.dart';
 import 'package:apostrophe/Pages/HomePage.dart';
@@ -28,7 +26,7 @@ class _NewHomeState extends State<NewHome> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
-          "SHITROCKET",
+          "SHIPROCKET",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -67,7 +65,44 @@ class _NewHomeState extends State<NewHome> {
                       ),
                     ),
                   ),
-                  Card(),
+                  InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new ShowAllOrders(profile: widget.profile)),
+                    ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            MediaQuery.of(context).size.height * 0.03),
+                      ),
+                      elevation: 2,
+                      // color: Color.fromRGBO(245, 245, 245, 1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.shopping_bag,
+                              size: MediaQuery.of(context).size.height * 0.1,
+                              color: Colors.teal,
+                            ),
+                            Text(
+                              "All Orders",
+                              style: TextStyle(
+                                  color: Colors.teal,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.03),
+                            ),
+                          ],
+                        )),
+                      ),
+                    ),
+                  ),
                   GridView(
                     shrinkWrap: true,
                     physics: ScrollPhysics(parent: null),
@@ -75,11 +110,11 @@ class _NewHomeState extends State<NewHome> {
                       crossAxisCount: 2,
                     ),
                     children: [
-                      gridTile(
-                          widget: widget,
-                          icon: Icons.shopping_bag,
-                          name: "Orders",
-                          route: 1),
+                      // gridTile(
+                      //     widget: widget,
+                      //     icon: Icons.shopping_bag,
+                      //     name: "Orders",
+                      //     route: 1),
                       gridTile(
                           widget: widget,
                           icon: Icons.track_changes,
