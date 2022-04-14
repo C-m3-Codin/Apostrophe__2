@@ -212,7 +212,7 @@ class Data {
         totalInr: json["total_inr"],
         totalUsd: json["total_usd"],
         netTotal: json["net_total"],
-        otherCharges: json["other_charges"],
+        otherCharges: json["other_charges"].toString(),
         otherDiscounts: json["other_discounts"],
         giftwrapCharges: json["giftwrap_charges"],
         expedited: json["expedited"],

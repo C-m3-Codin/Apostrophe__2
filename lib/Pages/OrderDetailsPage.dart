@@ -332,17 +332,29 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           } else {
                                             print(
                                                 "location ${order.data!.data.billingCity + order.data!.data.billingPincode}   asdasd location ${order.data!.data.customerAddress + order.data!.data.customerPincode}");
-                                            print(
-                                                "${snapshot.data![0].data[0].latitude}");
+                                            // print(
+                                            //     "${snapshot.data![0].data[0].latitude}");
                                             return mapWidgetForDetails(
-                                              latitude: snapshot
-                                                  .data![0].data[0].latitude,
-                                              longitude: snapshot
-                                                  .data![0].data[0].longitude,
-                                              latitude2: snapshot
-                                                  .data![1].data[0].latitude,
-                                              longitude2: snapshot
-                                                  .data![1].data[0].longitude,
+                                              latitude:
+                                                  snapshot.data![0].data.isEmpty
+                                                      ? 28.645093312626376
+                                                      : snapshot.data![0]
+                                                          .data[0].latitude,
+                                              longitude:
+                                                  snapshot.data![0].data.isEmpty
+                                                      ? 77.07422383707488
+                                                      : snapshot.data![0]
+                                                          .data[0].longitude,
+                                              latitude2:
+                                                  snapshot.data![1].data.isEmpty
+                                                      ? 28.534601
+                                                      : snapshot.data![1]
+                                                          .data[0].latitude,
+                                              longitude2:
+                                                  snapshot.data![1].data.isEmpty
+                                                      ? 77.381182
+                                                      : snapshot.data![1]
+                                                          .data[0].longitude,
                                             );
                                           }
                                         }
@@ -368,8 +380,8 @@ class _OrderDetailsState extends State<OrderDetails> {
   Container mapWidgetForDetails(
       {double latitude = 28.645093312626376,
       double longitude = 77.07422383707488,
-      double latitude2 = 27.645093312626376,
-      double longitude2 = 76.07422383707488}) {
+      double latitude2 = 28.557163,
+      double longitude2 = 77.163665}) {
     return Container(
       height: 600,
       width: 200,
@@ -389,7 +401,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               Marker(
                   width: 80.0,
                   // height: 80.0,
-                  point: LatLng(28.645093312626376, 77.07422383707488),
+                  point: LatLng(latitude, longitude),
                   builder: (context) {
                     return Container(
                       child: GestureDetector(
