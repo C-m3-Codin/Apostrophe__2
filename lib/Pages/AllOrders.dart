@@ -76,10 +76,14 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("All Orders")),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FilterOptions(context),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: FilterOptions(context),
+            ),
             ListOfOrders(),
           ],
         ),
@@ -182,16 +186,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
               " Filter",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
             ),
-            // Text(
-            //   "Filter Options",
-            //   style:
-            //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-            // ),
-            // Text(
-            //   "Filter Options",
-            //   style:
-            //       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-            // ),
+
           ],
         ),
         children: <Widget>[
@@ -392,7 +387,7 @@ class _ShowAllOrdersState extends State<ShowAllOrders> {
             return Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               // Container(
-              height: MediaQuery.of(context).size.height - 100,
+              height: MediaQuery.of(context).size.height - 10,
               child: list.length == 0
                   ? Center(
                       child: Text("No Data to show"),
