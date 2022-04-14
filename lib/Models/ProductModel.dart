@@ -168,7 +168,7 @@ class Pagination {
     required this.perPage,
     required this.currentPage,
     required this.totalPages,
-    required this.links,
+    // required this.links,
   });
 
   int total;
@@ -176,7 +176,7 @@ class Pagination {
   int perPage;
   int currentPage;
   int totalPages;
-  Links links;
+  // Links links;
 
   factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
         total: json["total"],
@@ -184,7 +184,7 @@ class Pagination {
         perPage: json["per_page"],
         currentPage: json["current_page"],
         totalPages: json["total_pages"],
-        links: Links.fromJson(json["links"]),
+        // links: Links.fromJson(json["links"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -193,7 +193,7 @@ class Pagination {
         "per_page": perPage,
         "current_page": currentPage,
         "total_pages": totalPages,
-        "links": links.toJson(),
+        // "links": links.toJson(),
       };
 }
 

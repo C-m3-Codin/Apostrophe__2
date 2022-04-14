@@ -1,6 +1,7 @@
 // import 'package:apostrophe/Models/allOrderModel.dart';
 import 'dart:convert';
 
+import 'package:apostrophe/Constants/Constants.dart';
 import 'package:apostrophe/Models/ProductModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,11 +16,30 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   ScrollController _scrollController = ScrollController();
-  String FilterBy = "";
+  String FilterBy = "name";
   String filter = "";
   int page = 0;
   String sort = "";
   late Future<bool> loading;
+
+  // ScrollController _scrollController = ScrollController();
+  TextEditingController enterFilterFalue = TextEditingController();
+  // Orders orders = Orders(data: [], meta: null);
+  bool channelIDSelected = true;
+  bool orderSortUp = true;
+  bool FilterOn = false;
+  // int page = 0;
+  // String FilterBy = "status";
+  // String filter = "1";
+  // String sort = "ASC";
+  List<String> dropOptions = statusCodeVals.keys.toList();
+  String dropdownValue = "Box Packing";
+  String dropDownFilterBy = "name";
+
+  // ["cod", "prepaid orders"];
+  ButtonStyle buttonOn = ElevatedButton.styleFrom(primary: Colors.blue);
+  ButtonStyle buttonOff = ElevatedButton.styleFrom(primary: Colors.grey);
+  late Future<bool> loaded;
 
   Product product = Product(data: [], meta: null);
 
@@ -30,13 +50,14 @@ class _ProductPageState extends State<ProductPage> {
     // trackapi = getTrack();
     // trackapi=Future.
     loading = getProductApi(0);
+    loaded = loading;
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
         print("end of scroll reached");
         if (product.meta != null) {
           page++;
-          getProductApi(page);
+          loaded = getProductApi(page);
         }
         if (product.meta != null) {
           if (product.meta!.pagination.currentPage ==
@@ -84,6 +105,182 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
+  Card FilterOptions(BuildContext context) {
+    return Card(
+      child: ExpansionTile(
+        title: Row(
+          children: const [
+            Text(
+              " Filter",
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    product.data = [];
+                    page = 0;
+                    product.meta = null;
+                    sort = orderSortUp ? "ASC" : "DESC";
+                    getProductApi(page);
+
+                    setState(() {
+                      orderSortUp = !orderSortUp;
+                    });
+                  },
+                  child: Row(children: [
+                    Text("Sort"),
+                    orderSortUp
+                        ? Icon(Icons.arrow_upward)
+                        : Icon(Icons.arrow_downward),
+                  ])),
+
+              ElevatedButton(
+                  onPressed: null,
+                  child: FutureBuilder<bool>(
+                      future: loaded,
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else {
+                          return Text("Order Count ${product.data!.length}");
+                        }
+                      })),
+
+              // ElevatedButton(onPressed: null, child: )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              DropdownButton<String>(
+                value: dropDownFilterBy,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  // width: 50,
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String? newValue) {
+                  // FilterBy = "status";
+                  FilterBy = newValue!;
+                  page = 0;
+                  channelIDSelected = true;
+
+                  setState(() {
+                    if (FilterOn) {
+                      FilterOn = false;
+                    }
+                    dropDownFilterBy = newValue!;
+                  });
+                },
+                items: ["name", "id", "sku"]
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              channelIDSelected
+                  ? Container(
+                      // height: 100,
+                      width: 100,
+                      child: TextField(
+                        onChanged: (value) {
+                          print("value changed ${value}");
+                          filter = value.toString();
+                        },
+                        controller: enterFilterFalue,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: FilterBy,
+                            hintText: 'Enter Channel id'),
+                      ),
+                    )
+                  : DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        width: 50,
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String? newValue) {
+                        // FilterBy = "status";
+                        filter = FilterBy == "status"
+                            ? statusCodeVals[newValue].toString()
+                            : newValue.toString();
+
+                        setState(() {
+                          if (FilterOn) {
+                            FilterOn = false;
+                          }
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: dropOptions
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                //to do change coor of button depending on the status of the button
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor),
+                onPressed: () {
+                  print("pressed Filter on");
+                  FilterOn = true;
+                  page = 0;
+                  product.data = [];
+                  product.meta = null;
+
+                  loaded = getProductApi(page);
+                  setState(() {});
+                },
+                child: Text("Apply Filters"),
+              ),
+              ElevatedButton(
+                //to do change coor of button depending on the status of the button
+                style: ElevatedButton.styleFrom(primary: Colors.grey),
+                onPressed: () {
+                  print("pressed Filter off");
+                  FilterOn = false;
+                  page = 0;
+                  product.data = [];
+                  product.meta = null;
+                  FilterBy = "";
+                  filter = "";
+                  loaded = getProductApi(page);
+                  setState(() {});
+                },
+                child: Text("Clear Filters"),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +289,7 @@ class _ProductPageState extends State<ProductPage> {
         child: Column(
           children: [
             // Container(child: Text("prod")),
-            // FilterOptions(context),
+            FilterOptions(context),
             FutureBuilder(
                 future: loading,
                 builder: (_, AsyncSnapshot<bool> snapshot) {
@@ -102,7 +299,7 @@ class _ProductPageState extends State<ProductPage> {
                     return Container(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
                         // Container(
-                        height: MediaQuery.of(context).size.height - 100,
+                        height: MediaQuery.of(context).size.height - 20,
                         child: product.data.length == 0
                             ? Center(
                                 child: Text("No Data to show"),
