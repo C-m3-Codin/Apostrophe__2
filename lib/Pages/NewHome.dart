@@ -100,11 +100,6 @@ class _NewHomeState extends State<NewHome> {
                           icon: Icons.card_membership,
                           name: "Partner",
                           route: 5),
-                      gridTile(
-                          widget: widget,
-                          icon: Icons.card_membership,
-                          name: "Partner",
-                          route: 5)
                     ],
                   )
                 ],

@@ -105,6 +105,7 @@ class _TrackState extends State<TrackPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(title: Text("Track Order")),
         // appBar: AppBa  r(
         //   title: Text("Track Package"),
         // ),
